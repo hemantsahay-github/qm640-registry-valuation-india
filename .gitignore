@@ -1,0 +1,10 @@
+# DPDP: raw portal captures may contain party names — never commit
+data/raw/*
+!data/raw/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+.env
+*.salt
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/

@@ -1,0 +1,28 @@
+variable,type,unit,meaning,role
+record_id,String,—,"Salted SHA-256 pseudonym of SRO, document number and year (first 16 hex chars)",Identifier
+district,Categorical,—,Pune or Thane,IV (dummy)
+sro_name / sro_code,Categorical,—,Sub-Registrar Office (code SRO00…),Stratum; cluster
+micro_market,Categorical,—,"Standardized village/locality (English, from Marathi)",Validation group; CF unit
+reg_date,Date,yyyy-mm-dd,Date of registration,"Derives fy, quarter"
+fy,Categorical,Year,Indian financial year 2023-24 to 2025-26,IV (two dummies)
+quarter,Categorical,FYyyQq,Indian FY quarter,Stratum
+doc_type,Categorical,—,conveyance or agreement_for_sale (others excluded),Filter
+consideration_inr,Continuous,INR,"Declared consideration, Index-II field (2)",Basis of DVs
+asr_value_inr,Continuous,INR,"Market value per ASR, Index-II field (3)",Basis of R
+stamp_duty_inr,Continuous,INR,"Stamp duty paid, field (12)",Validation
+carpet_area_m2,Continuous,m2,Carpet area; built-up / 1.2 when only built-up recorded,IV (log)
+area_basis,Binary,0/1,1 = carpet area recorded directly,IV (control)
+floor_no,Discrete,Count,Floor of the apartment (0 = ground),IV
+new_sale,Binary,0/1,1 = first sale by registered promoter (MahaRERA),IV
+parking,Binary,0/1,1 = parking included,IV
+municipal_corp,Binary,0/1,1 = within a municipal corporation,IV
+lat / lon,Continuous,Degrees,Locality centroid (OpenStreetMap),Feature (RQ3)
+dist_rail_km,Continuous,km,Distance to nearest rail or metro station,IV
+dist_cbd_km,Continuous,km,Distance to district CBD,IV
+asr_rate_m2,Continuous,INR/m2,asr_value_inr / carpet_area_m2,IV (log)
+value_m2,Continuous,INR/m2,consideration_inr / carpet_area_m2,DV RQ2-RQ3 (log)
+r_ratio,Continuous,Ratio,consideration_inr / asr_value_inr,DV RQ1
+anchored,Binary,0/1,1 if 0.98 <= r_ratio <= 1.02,DV RQ4
+residex_q,Continuous,Index,"NHB RESIDEX, city and quarter",Validation
+correction_factor,Continuous,Ratio,"Predicted / registered value, median by micro-market",Output RQ4
+is_synthetic,Binary,0/1,1 = synthetic validation row (never in study results),Audit flag

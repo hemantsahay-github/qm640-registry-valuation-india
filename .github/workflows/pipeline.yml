@@ -1,0 +1,32 @@
+# Runs one RQ stage at a time on demand (Actions tab -> "RQ pipeline" -> Run workflow).
+# The committed, de-identified data/processed/analysis_dataset.csv is used;
+# raw Index-II collection happens on the researcher's laptop (CAPTCHA).
+name: RQ pipeline
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: "Stage to run (etl needs raw data; use eda, rq1, rq2, rq3, rq4)"
+        required: true
+        default: rq1
+        type: choice
+        options: [eda, rq1, rq2, rq3, rq4]
+permissions:
+  contents: write
+jobs:
+  run-stage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q tests
+      - run: python -m src.pipeline --stage ${{ inputs.stage }}
+      - name: Commit RQ outputs and results log
+        run: |
+          git config user.name "qm640-pipeline"
+          git config user.email "actions@users.noreply.github.com"
+          git add outputs docs/RESULTS_LOG.md
+          git commit -m "Run ${{ inputs.stage }} via Actions" || echo "nothing to commit"
+          git push

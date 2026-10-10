@@ -1,0 +1,13 @@
+# Python 3.11+  (pinned for reproducibility)
+pandas>=2.2
+numpy>=1.26
+scipy>=1.13
+statsmodels>=0.14
+scikit-learn>=1.5
+xgboost>=2.1
+shap>=0.46
+matplotlib>=3.9
+indic-transliteration>=2.3
+playwright>=1.45        # local collection only
+pytest>=8.0
+# optional (Colab / laptop): osmnx, geopy, geopandas, deep-translator, fastapi, uvicorn

@@ -1,0 +1,37 @@
+micro_market,micro_market_mr,district,lat,lon,source
+Baner,बाणेर,Pune,18.559,73.786,approximate seed; replace via osm_features.py
+Wakad,वाकड,Pune,18.599,73.763,approximate seed; replace via osm_features.py
+Hinjewadi,हिंजवडी,Pune,18.591,73.739,approximate seed; replace via osm_features.py
+Kharadi,खराडी,Pune,18.551,73.94,approximate seed; replace via osm_features.py
+Hadapsar,हडपसर,Pune,18.503,73.926,approximate seed; replace via osm_features.py
+Wagholi,वाघोली,Pune,18.58,73.983,approximate seed; replace via osm_features.py
+Kothrud,कोथरूड,Pune,18.507,73.807,approximate seed; replace via osm_features.py
+Aundh,औंध,Pune,18.558,73.807,approximate seed; replace via osm_features.py
+Viman Nagar,विमाननगर,Pune,18.567,73.914,approximate seed; replace via osm_features.py
+Undri,उंड्री,Pune,18.457,73.91,approximate seed; replace via osm_features.py
+Pimple Saudagar,पिंपळे सौदागर,Pune,18.599,73.796,approximate seed; replace via osm_features.py
+Ravet,रावेत,Pune,18.648,73.743,approximate seed; replace via osm_features.py
+Moshi,मोशी,Pune,18.672,73.851,approximate seed; replace via osm_features.py
+Dhanori,धानोरी,Pune,18.591,73.904,approximate seed; replace via osm_features.py
+Bavdhan,बावधन,Pune,18.515,73.776,approximate seed; replace via osm_features.py
+Sus,सूस,Pune,18.546,73.752,approximate seed; replace via osm_features.py
+Tathawade,ताथवडे,Pune,18.618,73.747,approximate seed; replace via osm_features.py
+Punawale,पुनावळे,Pune,18.633,73.736,approximate seed; replace via osm_features.py
+Kondhwa,कोंढवा,Pune,18.473,73.89,approximate seed; replace via osm_features.py
+Chakan,चाकण,Pune,18.761,73.861,approximate seed; replace via osm_features.py
+Majiwada,माजिवडे,Thane,19.229,72.982,approximate seed; replace via osm_features.py
+Kolshet,कोलशेत,Thane,19.224,72.986,approximate seed; replace via osm_features.py
+Balkum,बाळकुम,Thane,19.218,72.981,approximate seed; replace via osm_features.py
+Kasarvadavali,कासारवडवली,Thane,19.262,72.968,approximate seed; replace via osm_features.py
+Waghbil,वाघबीळ,Thane,19.252,72.973,approximate seed; replace via osm_features.py
+Kalwa,कळवा,Thane,19.199,72.999,approximate seed; replace via osm_features.py
+Dombivli,डोंबिवली,Thane,19.218,73.087,approximate seed; replace via osm_features.py
+Kalyan,कल्याण,Thane,19.244,73.13,approximate seed; replace via osm_features.py
+Mira Road,मीरा रोड,Thane,19.281,72.869,approximate seed; replace via osm_features.py
+Bhiwandi,भिवंडी,Thane,19.296,73.063,approximate seed; replace via osm_features.py
+Ambernath,अंबरनाथ,Thane,19.209,73.186,approximate seed; replace via osm_features.py
+Badlapur,बदलापूर,Thane,19.155,73.265,approximate seed; replace via osm_features.py
+Ulhasnagar,उल्हासनगर,Thane,19.221,73.164,approximate seed; replace via osm_features.py
+Panchpakhadi,पाचपाखाडी,Thane,19.196,72.975,approximate seed; replace via osm_features.py
+Manpada,मानपाडा,Thane,19.236,72.976,approximate seed; replace via osm_features.py
+Titwala,टिटवाळा,Thane,19.297,73.204,approximate seed; replace via osm_features.py

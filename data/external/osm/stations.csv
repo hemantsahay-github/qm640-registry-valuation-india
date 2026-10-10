@@ -1,0 +1,24 @@
+station,district,lat,lon,mode,source
+Pune Junction,Pune,18.5285,73.8743,rail,approximate seed; replace via osm_features.py
+Shivajinagar,Pune,18.5314,73.8478,rail,approximate seed; replace via osm_features.py
+Khadki,Pune,18.5634,73.8405,rail,approximate seed; replace via osm_features.py
+Pimpri,Pune,18.6235,73.803,rail,approximate seed; replace via osm_features.py
+Chinchwad,Pune,18.6379,73.7887,rail,approximate seed; replace via osm_features.py
+Akurdi,Pune,18.6482,73.7653,rail,approximate seed; replace via osm_features.py
+Hadapsar,Pune,18.4985,73.943,rail,approximate seed; replace via osm_features.py
+PCMC Metro,Pune,18.629,73.8,metro,approximate seed; replace via osm_features.py
+Vanaz Metro,Pune,18.5072,73.8053,metro,approximate seed; replace via osm_features.py
+Ramwadi Metro,Pune,18.5533,73.912,metro,approximate seed; replace via osm_features.py
+Civil Court Metro,Pune,18.527,73.857,metro,approximate seed; replace via osm_features.py
+Thane,Thane,19.186,72.9759,rail,approximate seed; replace via osm_features.py
+Kalwa,Thane,19.198,72.998,rail,approximate seed; replace via osm_features.py
+Mumbra,Thane,19.19,73.023,rail,approximate seed; replace via osm_features.py
+Dombivli,Thane,19.2183,73.0868,rail,approximate seed; replace via osm_features.py
+Kalyan Junction,Thane,19.2354,73.1302,rail,approximate seed; replace via osm_features.py
+Ulhasnagar,Thane,19.2167,73.163,rail,approximate seed; replace via osm_features.py
+Ambernath,Thane,19.2083,73.1863,rail,approximate seed; replace via osm_features.py
+Badlapur,Thane,19.1663,73.238,rail,approximate seed; replace via osm_features.py
+Titwala,Thane,19.296,73.203,rail,approximate seed; replace via osm_features.py
+Mira Road,Thane,19.2813,72.856,rail,approximate seed; replace via osm_features.py
+Bhayandar,Thane,19.311,72.851,rail,approximate seed; replace via osm_features.py
+Bhiwandi Road,Thane,19.27,73.05,rail,approximate seed; replace via osm_features.py

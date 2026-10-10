@@ -1,0 +1,18 @@
+Copyright (c) 2026 Hemant Kumar Sahay. All rights reserved.
+
+PROPRIETARY AND CONFIDENTIAL — RESEARCH INTELLECTUAL PROPERTY
+
+This repository, including all source code, documentation, derived datasets,
+models, correction-factor methodology and figures (the "Work"), is the
+intellectual property of Hemant Kumar Sahay.
+
+Permission is granted ONLY to Walsh College faculty, mentors and evaluators of
+QM 640 Data Analytics Capstone to access, run and review the Work for the
+purpose of academic assessment. No other right is granted. Without prior
+written permission of the author, no part of the Work may be copied,
+modified, distributed, published, sublicensed, used commercially, or used to
+train machine-learning models.
+
+Third-party data retain their own terms: Maharashtra IGR Index-II (public
+records, accessed via the free search service), NHB RESIDEX, RBI DBIE, and
+OpenStreetMap (ODbL 1.0 — attribution "© OpenStreetMap contributors").

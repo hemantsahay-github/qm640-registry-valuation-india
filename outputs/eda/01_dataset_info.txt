@@ -1,0 +1,41 @@
+PIPELINE VALIDATION — SYNTHETIC DATA (not study findings)
+
+Shape: (1710, 30)
+
+<class 'pandas.DataFrame'>
+RangeIndex: 1710 entries, 0 to 1709
+Data columns (total 30 columns):
+ #   Column             Non-Null Count  Dtype         
+---  ------             --------------  -----         
+ 0   sro_name           1710 non-null   str           
+ 1   district           1710 non-null   str           
+ 2   micro_market       1710 non-null   str           
+ 3   doc_type           1710 non-null   str           
+ 4   reg_date           1710 non-null   datetime64[us]
+ 5   consideration_inr  1710 non-null   float64       
+ 6   asr_value_inr      1710 non-null   float64       
+ 7   stamp_duty_inr     1710 non-null   float64       
+ 8   carpet_area_m2     1710 non-null   float64       
+ 9   area_basis         1710 non-null   int64         
+ 10  floor_no           1710 non-null   float64       
+ 11  parking            1710 non-null   int64         
+ 12  new_sale           1710 non-null   int64         
+ 13  municipal_corp     1710 non-null   int64         
+ 14  is_synthetic       1710 non-null   int64         
+ 15  record_id          1710 non-null   str           
+ 16  lat                1710 non-null   float64       
+ 17  lon                1710 non-null   float64       
+ 18  dist_rail_km       1710 non-null   float64       
+ 19  dist_cbd_km        1710 non-null   float64       
+ 20  fy                 1710 non-null   str           
+ 21  quarter            1710 non-null   str           
+ 22  sro_code           1710 non-null   str           
+ 23  asr_rate_m2        1710 non-null   float64       
+ 24  value_m2           1710 non-null   float64       
+ 25  ln_value_m2        1710 non-null   float64       
+ 26  ln_asr_rate_m2     1710 non-null   float64       
+ 27  ln_carpet_area     1710 non-null   float64       
+ 28  r_ratio            1710 non-null   float64       
+ 29  anchored           1710 non-null   int64         
+dtypes: datetime64[us](1), float64(15), int64(6), str(8)
+memory usage: 400.9 KB

@@ -1,0 +1,2 @@
+run_ts,source,scraper_version,rows_raw,rows_analysis,columns_dropped_dpdp,redactions
+2026-10-10T23:23:06,SYNTHETIC validation,synthetic-1.0,1818,1710,executant_name;claimant_name;doc_no,1818
