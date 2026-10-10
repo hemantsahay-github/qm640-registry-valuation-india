@@ -2,7 +2,7 @@
 
 Each entry is written automatically by `src/pipeline.py`.
 
-## ETL — 2026-10-10 23:23
+## ETL — 2026-10-10 23:26
 
 **Data:** PIPELINE VALIDATION — SYNTHETIC DATA (not study findings)
 
@@ -37,7 +37,7 @@ Raw Index-II text was parsed from Marathi, personal data removed under DPDP cont
 - `/home/claude/work/qm640-registry-valuation-india/data/processed/analysis_dataset.csv`
 
 ---
-## EDA — 2026-10-10 23:23
+## EDA — 2026-10-10 23:26
 
 **Data:** PIPELINE VALIDATION — SYNTHETIC DATA (not study findings)
 
@@ -111,7 +111,7 @@ Profiles the analysis dataset: completeness, distributions, central tendency, co
 - `/home/claude/work/qm640-registry-valuation-india/outputs/eda/fig_06_counts.png`
 
 ---
-## RQ1 — 2026-10-10 23:23
+## RQ1 — 2026-10-10 23:26
 
 **Data:** PIPELINE VALIDATION — SYNTHETIC DATA (not study findings)
 

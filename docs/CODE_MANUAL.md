@@ -40,7 +40,7 @@ Every stage adds a dated entry to `docs/RESULTS_LOG.md`. Each entry has the data
 | `data/processed/` | Analysis-ready, de-identified | Yes (publishable view) |
 | `data/external/` | ASR, RESIDEX, RBI, OSM reference files | Yes |
 | `outputs/<stage>/` | RQ-wise CSV, PNG, `summary.json` | Yes |
-| `docs/` | This manual, results log, data dictionary, provenance log | Yes |
+| `docs/` | This manual, results log, data dictionary, provenance log, Emergent.ai integration script | Yes |
 | `colab/` | Google Colab runner for large data | Yes |
 | `tests/` | Unit tests (`pytest`) | Yes |
 
@@ -91,7 +91,7 @@ The glossary approach is reproducible and auditable, which a thesis needs. Machi
 
 ### 3.8 `src/features/build_features.py` and `osm_features.py`
 * `add_location` joins locality centroids and computes haversine distances to the nearest station and to the CBD (Shivajinagar for Pune, Thane station for Thane).
-* `add_derived` creates `fy`, `quarter` (FY25Q3 style), `sro_code`, `asr_rate_m2`, `value_m2`, logs, `r_ratio` and `anchored` (0.98 ≤ R ≤ 1.02).
+* `add_derived` creates `fy`, `quarter` (FY25Q3 style), `sro_code`, `asr_rate_m2`, `value_m2`, logs, `r_ratio` and `anchored` (0.98 ≤ R < 1.02).
 * `osm_features.py` replaces the approximate seed coordinates with OpenStreetMap stations and Nominatim geocodes. Run it in Colab or on a laptop.
 
 ### 3.9 `src/etl.py`
@@ -163,4 +163,4 @@ Study-data rows replace the synthetic rows once real Index-II records are collec
 
 ## 6. Glossary
 
-ASR is the Annual Statement of Rates (ready reckoner or circle rate). Index-II is the registered-document extract. SRO is the Sub-Registrar Office. *R* is consideration divided by ASR value. Anchored means 0.98 ≤ R ≤ 1.02. Excess mass *b* is defined in Equation 1 of the synopsis. CF is the correction factor, the median of predicted ÷ registered value. DPDP is the Digital Personal Data Protection Act, 2023.
+ASR is the Annual Statement of Rates (ready reckoner or circle rate). Index-II is the registered-document extract. SRO is the Sub-Registrar Office. *R* is consideration divided by ASR value. Anchored means 0.98 ≤ R < 1.02. Excess mass *b* is defined in Equation 1 of the synopsis. CF is the correction factor, the median of predicted ÷ registered value. DPDP is the Digital Personal Data Protection Act, 2023.

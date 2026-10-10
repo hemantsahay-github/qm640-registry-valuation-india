@@ -135,7 +135,7 @@ def run(label: str) -> tuple[dict, list]:
     fig, ax = plt.subplots(figsize=(9, 4.5))
     bins = np.arange(0.80, 2.001, 0.01)
     ax.hist(df["r_ratio"][df["r_ratio"].between(0.80, 2.0)], bins=bins, color=SERIES[0], alpha=0.85)
-    ax.axvspan(ANCHOR_LO, ANCHOR_HI, color=SERIES[1], alpha=0.25, label="Anchoring window 0.98–1.02")
+    ax.axvspan(ANCHOR_LO, ANCHOR_HI, color=SERIES[1], alpha=0.25, label="Anchoring window 0.98 ≤ R < 1.02")
     ax.set_xlabel("R = consideration / ASR value (bin width 0.01)"); ax.set_ylabel("Transactions")
     ax.set_title("Distribution of R: visible spike at the ASR threshold?"); ax.legend()
     footer(fig, label); fig.savefig(OUT / "fig_05_r_ratio_distribution.png"); plt.close(fig)

@@ -55,5 +55,5 @@ def add_derived(df: pd.DataFrame) -> pd.DataFrame:
     df["ln_asr_rate_m2"] = np.log(df["asr_rate_m2"])
     df["ln_carpet_area"] = np.log(df["carpet_area_m2"])
     df["r_ratio"] = df["consideration_inr"] / df["asr_value_inr"]
-    df["anchored"] = df["r_ratio"].between(ANCHOR_LO, ANCHOR_HI).astype(int)
+    df["anchored"] = ((df["r_ratio"] >= ANCHOR_LO) & (df["r_ratio"] < ANCHOR_HI)).astype(int)  # [0.98, 1.02)
     return df

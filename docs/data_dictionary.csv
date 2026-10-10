@@ -22,7 +22,7 @@ dist_cbd_km,Continuous,km,Distance to district CBD,IV
 asr_rate_m2,Continuous,INR/m2,asr_value_inr / carpet_area_m2,IV (log)
 value_m2,Continuous,INR/m2,consideration_inr / carpet_area_m2,DV RQ2-RQ3 (log)
 r_ratio,Continuous,Ratio,consideration_inr / asr_value_inr,DV RQ1
-anchored,Binary,0/1,1 if 0.98 <= r_ratio <= 1.02,DV RQ4
+anchored,Binary,0/1,1 if 0.98 <= r_ratio < 1.02,DV RQ4
 residex_q,Continuous,Index,"NHB RESIDEX, city and quarter",Validation
 correction_factor,Continuous,Ratio,"Predicted / registered value, median by micro-market",Output RQ4
 is_synthetic,Binary,0/1,1 = synthetic validation row (never in study results),Audit flag

@@ -73,4 +73,4 @@ Index-II pages name the parties. `src/clean/dpdp_masking.py` drops names, docume
 └── .github/workflows/          pipeline.yml (manual, one stage per run)
 ```
 
-See **`docs/CODE_MANUAL.md`** for a file-by-file reference and **`docs/RESULTS_LOG.md`** for every run's outcome.
+See **`docs/CODE_MANUAL.md`** for a file-by-file reference, **`docs/RESULTS_LOG.md`** for every run's outcome, and **`docs/EMERGENT_ESTIMA_INTEGRATION_SCRIPT.md`** for the phased Emergent.ai build script that brings the results into Estima.
