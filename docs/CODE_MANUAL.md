@@ -2,7 +2,7 @@
 
 **Project:** Correcting for Circle-Rate Anchoring in Indian Residential Property Valuation: A Registry-Based Machine Learning Study
 **Author / IP owner:** Hemant Kumar Sahay · QM 640 Data Analytics Capstone, Walsh College
-**Manual version:** 1.0 (11 October 2026), covering Stage 0 (setup), ETL, EDA and RQ1. Sections for RQ2–RQ4 are added as each stage is run.
+**Manual version:** 1.1 (11 October 2026), covering Stage 0 (setup), ETL, EDA, RQ1 and RQ2. Sections for RQ3–RQ4 are added as each stage is run.
 
 ---
 
@@ -124,6 +124,17 @@ Filters run in order and each excluded row is logged in `data/processed/exclusio
 
 **How to explain it to a mentor:** "b is how many times larger the spike at R = 1 is than a normal bin would be. Excess share is the fraction of all deals that moved to the circle rate instead of their market price."
 
+### 3.11a `src/models/rq2_hedonic.py`
+1. **Restricted model:** ln_value_m2 ~ ln_asr_rate_m2. **Full model:** adds 11 attributes (ln carpet area, area basis, floor, new sale, parking, distance to station, distance to CBD, Thane dummy, municipal corporation, FY 2024–25 and FY 2025–26 dummies). So *u* = 11 and *k* = 12.
+2. **Partial F test** (synopsis Equation 2) for ΔR², plus an HC3-robust Wald F test of the same 11 restrictions. Cohen's f² measures the size of the increment.
+3. **Coefficients** use HC3 robust errors. Errors clustered by micro-market are the conservative sensitivity check. Dummy effects are reported as % = 100 × (e^b − 1), and standardized betas rank the drivers.
+4. **ASR elasticity test**, H0: β_ASR = 1. An elasticity near 1 combined with a small ΔR² would itself indicate anchoring.
+5. **Diagnostics:** VIF (target < 5), Breusch–Pagan, Jarque–Bera, Durbin–Watson, condition number, residual-vs-fitted plot and Q–Q plot.
+
+**Outputs:** `rq2_coefficients_full.csv`, `rq2_coefficients_restricted.csv`, `rq2_model_comparison.csv`, `rq2_vif.csv`, `rq2_diagnostics.csv`, `rq2_full_model_summary.txt`, `fig_rq2_r2_increase.png`, `fig_rq2_standardized_coefficients.png`, `fig_rq2_diagnostics.png`, `summary.json`.
+
+**How to explain it to a mentor:** "The ASR rate alone explains most of the variation in registered value. The question is whether flat-level and location attributes add anything beyond it. If they add little and the ASR elasticity is about 1, registered values are simply tracking the circle rate."
+
 ### 3.12 `src/utils/results_log.py` and `plotstyle.py`
 The logger writes the RQ-labelled entries in `RESULTS_LOG.md`. The style module fixes colors (Pune blue, Thane orange), uses a diverging map for correlations, and adds a data-source footer to every figure so synthetic figures can never be mistaken for findings.
 
@@ -144,7 +155,7 @@ This script recomputes every minimum N. RQ1: CI for a proportion → 1,068. RQ2:
 | ETL | 11-Oct-2026 | Synthetic validation | 1,818 raw → 1,710 analysable (63 out-of-scope deeds, 25 missing core values, 20 duplicates); 3 personal fields dropped; 1,818 free-text redactions; DPDP gate passed | RESULTS_LOG §ETL |
 | EDA | 11-Oct-2026 | Synthetic validation | No nulls after cleaning (26 missing areas before); r(ln value, ln ASR) = .93; median R = 1.31 | `outputs/eda/` |
 | RQ1 | 11-Oct-2026 | Synthetic validation | b = 35.2, bootstrap 95% CI [25.6, 52.7], p < .002; excess share 12.1% vs known truth ≈ 13.8%, so the estimator works; robust across degrees 5–9 (b 21.9–36.6) | `outputs/rq1/` |
-| RQ2 | — | — | pending | — |
+| RQ2 | 11-Oct-2026 | Synthetic validation | R² 0.864 → 0.891 (ΔR² = .027, f² = .25); partial F(11, 1697) = 38.2, p < .001 (HC3 Wald F = 40.5). Recovered the effects built into the synthetic data: floor +0.34%/floor, parking +4.1%, FY drift +4.8% and +9.3%. Correctly found no effect for area, area basis, station distance or municipal status. ASR elasticity 1.24. VIF max 5.18 (ln ASR rate, collinear with CBD distance). Breusch–Pagan significant, so HC3 is needed. The negative-residual cluster in the residual plot is the anchoring signature that RQ3/RQ4 target | `outputs/rq2/` |
 | RQ3 | — | — | pending | — |
 | RQ4 | — | — | pending | — |
 

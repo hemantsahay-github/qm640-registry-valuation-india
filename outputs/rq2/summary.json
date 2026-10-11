@@ -1,0 +1,67 @@
+{
+  "n": 1710,
+  "k_full": 12,
+  "u_tested": 11,
+  "R2_restricted": 0.864,
+  "R2_full": 0.891,
+  "delta_R2": 0.027,
+  "adj_R2_full": 0.8902,
+  "cohens_f2_increment": 0.2477,
+  "partial_F": 38.209,
+  "df": [
+    11,
+    1697
+  ],
+  "p_partial_F": 5.95e-74,
+  "robust_wald_F_HC3": 40.548,
+  "robust_wald_p": 2.6e-78,
+  "decision_alpha_0.05": "Reject H0: attributes add explanatory power",
+  "asr_elasticity": 1.2366,
+  "asr_elasticity_ci95": [
+    1.1943,
+    1.2788
+  ],
+  "test_asr_elasticity_eq_1_p": 5.02e-28,
+  "significant_attributes_hc3": [
+    "Floor (per floor)",
+    "New sale (promoter)",
+    "Parking included",
+    "Distance to CBD (km)",
+    "Thane (vs. Pune)",
+    "FY 2024–25 (vs. 2023–24)",
+    "FY 2025–26 (vs. 2023–24)"
+  ],
+  "not_significant_hc3": [
+    "ln carpet area (m²)",
+    "Carpet area recorded directly",
+    "Distance to station (km)",
+    "Municipal corporation"
+  ],
+  "significant_under_cluster_se": [
+    "Floor (per floor)",
+    "New sale (promoter)",
+    "Parking included",
+    "Thane (vs. Pune)",
+    "FY 2024–25 (vs. 2023–24)",
+    "FY 2025–26 (vs. 2023–24)"
+  ],
+  "top3_by_abs_std_beta": [
+    "ln ASR rate (₹/m²)",
+    "FY 2025–26 (vs. 2023–24)",
+    "New sale (promoter)"
+  ],
+  "diagnostics": {
+    "breusch_pagan_LM": 114.987,
+    "breusch_pagan_p": 6.15e-19,
+    "jarque_bera": 74.987,
+    "jarque_bera_p": 5.21e-17,
+    "resid_skew": -0.5,
+    "resid_kurtosis": 3.228,
+    "durbin_watson": 2.029,
+    "condition_number": 1969.5,
+    "max_vif": 5.178,
+    "vars_vif_over_5": [
+      "ln_asr_rate_m2"
+    ]
+  }
+}

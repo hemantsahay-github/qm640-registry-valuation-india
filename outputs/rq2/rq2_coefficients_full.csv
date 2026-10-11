@@ -1,0 +1,14 @@
+term,variable,b,se_hc3,t_hc3,p_hc3,ci95_low,ci95_high,se_cluster,p_cluster,std_beta,pct_effect,significant_hc3,significant_cluster
+Intercept,const,-2.51373,0.25397,-9.89786,0.0,-3.01149,-2.01596,0.3443,0.0,,,True,True
+ln ASR rate (₹/m²),ln_asr_rate_m2,1.23656,0.02155,57.37066,0.0,1.19432,1.27881,0.02836,0.0,0.97961,,True,True
+ln carpet area (m²),ln_carpet_area,-0.01357,0.00961,-1.41164,0.15806,-0.0324,0.00527,0.01032,0.18856,-0.01103,,False,False
+Carpet area recorded directly,area_basis,0.00661,0.00993,0.66503,0.50603,-0.01286,0.02608,0.00905,0.46564,0.00557,0.66279,False,False
+Floor (per floor),floor_no,0.0034,0.00039,8.78761,0.0,0.00264,0.00416,0.00031,0.0,0.07301,0.34044,True,True
+New sale (promoter),new_sale,0.07586,0.00687,11.03508,0.0,0.06239,0.08933,0.00919,0.0,0.08813,7.88112,True,True
+Parking included,parking,0.04005,0.00711,5.63584,0.0,0.02612,0.05397,0.00654,0.0,0.04465,4.08582,True,True
+Distance to station (km),dist_rail_km,0.00105,0.00122,0.86163,0.38889,-0.00134,0.00345,0.00145,0.46763,0.00782,0.10543,False,False
+Distance to CBD (km),dist_cbd_km,0.00206,0.00097,2.1304,0.03314,0.00016,0.00395,0.00132,0.11957,0.03443,0.20597,True,False
+Thane (vs. Pune),district_Thane,-0.0533,0.00888,-6.00318,0.0,-0.0707,-0.0359,0.01007,0.0,-0.06242,-5.19035,True,True
+Municipal corporation,municipal_corp,-0.01565,0.01111,-1.40908,0.15881,-0.03742,0.00612,0.01393,0.26117,-0.01255,-1.55298,False,False
+FY 2024–25 (vs. 2023–24),fy_2024_25,0.04722,0.0082,5.75616,0.0,0.03114,0.0633,0.00826,0.0,0.052,4.83544,True,True
+FY 2025–26 (vs. 2023–24),fy_2025_26,0.08862,0.00833,10.64437,0.0,0.07231,0.10494,0.00786,0.0,0.09877,9.26693,True,True

@@ -1,0 +1,3 @@
+model,k,R2,adj_R2,AIC,BIC,RMSE_log
+Restricted (ASR only),1,0.864,0.8639,-1471.4534,-1460.5649,0.1573
+Full (ASR + 11 attributes),12,0.891,0.8902,-1827.8401,-1757.0649,0.1413

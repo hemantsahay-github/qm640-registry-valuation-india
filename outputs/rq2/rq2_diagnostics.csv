@@ -1,0 +1,11 @@
+,value
+breusch_pagan_LM,114.987
+breusch_pagan_p,6.15e-19
+jarque_bera,74.987
+jarque_bera_p,5.21e-17
+resid_skew,-0.5
+resid_kurtosis,3.228
+durbin_watson,2.029
+condition_number,1969.5
+max_vif,5.178
+vars_vif_over_5,['ln_asr_rate_m2']

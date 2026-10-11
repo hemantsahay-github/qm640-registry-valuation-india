@@ -58,3 +58,12 @@ def test_bunching_recovers_known_mass():
     est = estimate(np.concatenate([smooth, bunch]))
     assert est["B_excess_count"] == pytest.approx(500, rel=0.15)
     assert estimate(smooth)["b_normalised"] < 2
+
+
+def test_rq2_design_has_u11_k12():
+    from src.models.rq2_hedonic import ATTRS, BASE, design
+    df = pd.DataFrame({"ln_asr_rate_m2": [11.0], "ln_carpet_area": [4.0], "area_basis": [1], "floor_no": [3],
+                       "new_sale": [0], "parking": [1], "dist_rail_km": [2.0], "dist_cbd_km": [8.0],
+                       "municipal_corp": [1], "district": ["Thane"], "fy": ["2025-26"]})
+    X = design(df)
+    assert len(ATTRS) == 11 and X.shape[1] == 12 and X["district_Thane"].iloc[0] == 1 and X["fy_2025_26"].iloc[0] == 1

@@ -28,6 +28,10 @@ INTERPRET = {
     "RQ1": "b > 0 with a bootstrap CI excluding 0 means more transactions sit at the ASR threshold "
            "than a smooth distribution predicts — evidence of circle-rate anchoring. Excess share is the "
            "fraction of all transactions that moved to the threshold.",
+    "RQ2": "A significant partial F test means property and locational attributes explain registered "
+           "value beyond the ASR rate. A small dR^2 together with an ASR elasticity close to 1 would "
+           "itself point to anchoring (registered values tracking the circle rate). Read significance "
+           "with HC3 errors; the clustered errors are the conservative check.",
 }
 STAGES = {"etl": "src.etl", "eda": "src.eda", "rq1": "src.models.rq1_bunching",
           "rq2": "src.models.rq2_hedonic", "rq3": "src.models.rq3_gbm_vs_ols",

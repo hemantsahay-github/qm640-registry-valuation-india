@@ -1,0 +1,40 @@
+PIPELINE VALIDATION — SYNTHETIC DATA (not study findings)
+
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:            ln_value_m2   R-squared:                       0.891
+Model:                            OLS   Adj. R-squared:                  0.890
+Method:                 Least Squares   F-statistic:                     1144.
+Date:                Sun, 11 Oct 2026   Prob (F-statistic):               0.00
+Time:                        00:00:30   Log-Likelihood:                 926.92
+No. Observations:                1710   AIC:                            -1828.
+Df Residuals:                    1697   BIC:                            -1757.
+Df Model:                          12                                         
+Covariance Type:                  HC3                                         
+==================================================================================
+                     coef    std err          z      P>|z|      [0.025      0.975]
+----------------------------------------------------------------------------------
+const             -2.5137      0.254     -9.898      0.000      -3.011      -2.016
+ln_asr_rate_m2     1.2366      0.022     57.371      0.000       1.194       1.279
+ln_carpet_area    -0.0136      0.010     -1.412      0.158      -0.032       0.005
+area_basis         0.0066      0.010      0.665      0.506      -0.013       0.026
+floor_no           0.0034      0.000      8.788      0.000       0.003       0.004
+new_sale           0.0759      0.007     11.035      0.000       0.062       0.089
+parking            0.0400      0.007      5.636      0.000       0.026       0.054
+dist_rail_km       0.0011      0.001      0.862      0.389      -0.001       0.003
+dist_cbd_km        0.0021      0.001      2.130      0.033       0.000       0.004
+district_Thane    -0.0533      0.009     -6.003      0.000      -0.071      -0.036
+municipal_corp    -0.0157      0.011     -1.409      0.159      -0.037       0.006
+fy_2024_25         0.0472      0.008      5.756      0.000       0.031       0.063
+fy_2025_26         0.0886      0.008     10.644      0.000       0.072       0.105
+==============================================================================
+Omnibus:                       67.803   Durbin-Watson:                   2.029
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               74.987
+Skew:                          -0.500   Prob(JB):                     5.21e-17
+Kurtosis:                       3.228   Cond. No.                     1.97e+03
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC3)
+[2] The condition number is large, 1.97e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.

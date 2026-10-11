@@ -199,3 +199,97 @@ b > 0 with a bootstrap CI excluding 0 means more transactions sit at the ASR thr
 - `/home/claude/work/qm640-registry-valuation-india/outputs/rq1/summary.json`
 
 ---
+## RQ2 — 2026-10-11 00:00
+
+**Data:** PIPELINE VALIDATION — SYNTHETIC DATA (not study findings)
+
+**Key results**
+
+```json
+{
+  "n": 1710,
+  "k_full": 12,
+  "u_tested": 11,
+  "R2_restricted": 0.864,
+  "R2_full": 0.891,
+  "delta_R2": 0.027,
+  "adj_R2_full": 0.8902,
+  "cohens_f2_increment": 0.2477,
+  "partial_F": 38.209,
+  "df": [
+    11,
+    1697
+  ],
+  "p_partial_F": 5.95e-74,
+  "robust_wald_F_HC3": 40.548,
+  "robust_wald_p": 2.6e-78,
+  "decision_alpha_0.05": "Reject H0: attributes add explanatory power",
+  "asr_elasticity": 1.2366,
+  "asr_elasticity_ci95": [
+    1.1943,
+    1.2788
+  ],
+  "test_asr_elasticity_eq_1_p": 5.02e-28,
+  "significant_attributes_hc3": [
+    "Floor (per floor)",
+    "New sale (promoter)",
+    "Parking included",
+    "Distance to CBD (km)",
+    "Thane (vs. Pune)",
+    "FY 2024\u201325 (vs. 2023\u201324)",
+    "FY 2025\u201326 (vs. 2023\u201324)"
+  ],
+  "not_significant_hc3": [
+    "ln carpet area (m\u00b2)",
+    "Carpet area recorded directly",
+    "Distance to station (km)",
+    "Municipal corporation"
+  ],
+  "significant_under_cluster_se": [
+    "Floor (per floor)",
+    "New sale (promoter)",
+    "Parking included",
+    "Thane (vs. Pune)",
+    "FY 2024\u201325 (vs. 2023\u201324)",
+    "FY 2025\u201326 (vs. 2023\u201324)"
+  ],
+  "top3_by_abs_std_beta": [
+    "ln ASR rate (\u20b9/m\u00b2)",
+    "FY 2025\u201326 (vs. 2023\u201324)",
+    "New sale (promoter)"
+  ],
+  "diagnostics": {
+    "breusch_pagan_LM": 114.987,
+    "breusch_pagan_p": 6.15e-19,
+    "jarque_bera": 74.987,
+    "jarque_bera_p": 5.21e-17,
+    "resid_skew": -0.5,
+    "resid_kurtosis": 3.228,
+    "durbin_watson": 2.029,
+    "condition_number": 1969.5,
+    "max_vif": 5.178,
+    "vars_vif_over_5": [
+      "ln_asr_rate_m2"
+    ]
+  }
+}
+```
+
+**Interpretation**
+
+A significant partial F test means property and locational attributes explain registered value beyond the ASR rate. A small dR^2 together with an ASR elasticity close to 1 would itself point to anchoring (registered values tracking the circle rate). Read significance with HC3 errors; the clustered errors are the conservative check.
+
+**Output files**
+
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq2/fig_rq2_diagnostics.png`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq2/fig_rq2_r2_increase.png`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq2/fig_rq2_standardized_coefficients.png`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq2/rq2_coefficients_full.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq2/rq2_coefficients_restricted.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq2/rq2_diagnostics.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq2/rq2_full_model_summary.txt`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq2/rq2_model_comparison.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq2/rq2_vif.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq2/summary.json`
+
+---
