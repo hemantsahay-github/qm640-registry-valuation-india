@@ -532,3 +532,91 @@ The pipeline's correction factor (1.31) recovers 95% of the true factor (1.38) a
 - `outputs/rq4/synthetic_truth_check.json`
 
 ---
+## RQ1 — 2026-10-12 09:11
+
+**Data:** PIPELINE VALIDATION — SYNTHETIC DATA (not study findings)
+
+**Key results**
+
+```json
+{
+  "n_analysed": 1710,
+  "n_in_bunching_range": 1704,
+  "window": "[0.98, 1.02)",
+  "bins_in_window": 4,
+  "observed_in_window": 229.0,
+  "counterfactual_in_window": 23.4,
+  "excess_count_B": 205.6,
+  "b_normalised": 35.168,
+  "b_bootstrap_ci95": [
+    25.567,
+    52.734
+  ],
+  "p_value_H0_b_eq_0_one_sided": 0.0,
+  "decision_alpha_0.05": "Reject H0 (bunching present)",
+  "excess_share_of_transactions": 0.1207,
+  "anchored_share_observed": 0.1339,
+  "anchored_share_ci95_wilson": [
+    0.1186,
+    0.1509
+  ],
+  "ci_half_width": 0.0161,
+  "robustness_b_range": [
+    21.878,
+    36.569
+  ],
+  "by_segment": [
+    {
+      "segment": "district",
+      "level": "Pune",
+      "n": 906,
+      "anchored_share": 0.1181,
+      "b": 40.255
+    },
+    {
+      "segment": "district",
+      "level": "Thane",
+      "n": 804,
+      "anchored_share": 0.1517,
+      "b": 31.365
+    },
+    {
+      "segment": "fy",
+      "level": "2023-24",
+      "n": 562,
+      "anchored_share": 0.1566,
+      "b": 17.861
+    },
+    {
+      "segment": "fy",
+      "level": "2024-25",
+      "n": 560,
+      "anchored_share": 0.1393,
+      "b": 81.253
+    },
+    {
+      "segment": "fy",
+      "level": "2025-26",
+      "n": 588,
+      "anchored_share": 0.1071,
+      "b": 63.082
+    }
+  ]
+}
+```
+
+**Interpretation**
+
+b > 0 with a bootstrap CI excluding 0 means more transactions sit at the ASR threshold than a smooth distribution predicts — evidence of circle-rate anchoring. Excess share is the fraction of all transactions that moved to the threshold.
+
+**Output files**
+
+- `/home/runner/work/qm640-registry-valuation-india/qm640-registry-valuation-india/outputs/rq1/fig_rq1_bootstrap.png`
+- `/home/runner/work/qm640-registry-valuation-india/qm640-registry-valuation-india/outputs/rq1/fig_rq1_bunching_by_district.png`
+- `/home/runner/work/qm640-registry-valuation-india/qm640-registry-valuation-india/outputs/rq1/fig_rq1_bunching_pooled.png`
+- `/home/runner/work/qm640-registry-valuation-india/qm640-registry-valuation-india/outputs/rq1/rq1_bins.csv`
+- `/home/runner/work/qm640-registry-valuation-india/qm640-registry-valuation-india/outputs/rq1/rq1_by_segment.csv`
+- `/home/runner/work/qm640-registry-valuation-india/qm640-registry-valuation-india/outputs/rq1/rq1_robustness.csv`
+- `/home/runner/work/qm640-registry-valuation-india/qm640-registry-valuation-india/outputs/rq1/summary.json`
+
+---
