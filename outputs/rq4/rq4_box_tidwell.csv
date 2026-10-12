@@ -1,0 +1,5 @@
+variable,b_xlnx,p,linear_in_logit_ok
+ln_asr_rate_m2,60.10794,0.01784,False
+ln_carpet_area,-2.29232,0.5479,True
+dist_rail_km,0.02225,0.6495,True
+dist_cbd_km,-0.02376,0.61686,True

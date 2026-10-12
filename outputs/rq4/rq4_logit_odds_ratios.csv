@@ -1,0 +1,14 @@
+term,variable,b,se,z,p,odds_ratio,or_ci95_low,or_ci95_high,significant
+Intercept,const,-4.63484,5.82654,-0.79547,0.42634,0.00971,0.0,884.45611,False
+ln ASR rate (₹/m²),ln_asr_rate_m2,0.21597,0.49476,0.43651,0.66247,1.24106,0.4706,3.2729,False
+ln carpet area (m²),ln_carpet_area,0.40422,0.21179,1.90856,0.05632,1.49814,0.98917,2.26898,False
+Carpet area recorded directly,area_basis,-0.08411,0.19518,-0.43092,0.66652,0.91933,0.6271,1.34774,False
+Floor (per floor),floor_no,-0.01719,0.00796,-2.15917,0.03084,0.98296,0.96774,0.99842,True
+New sale (promoter),new_sale,-0.89399,0.16122,-5.54526,0.0,0.40902,0.29821,0.56101,True
+Parking included,parking,-0.25119,0.14957,-1.67939,0.09308,0.77787,0.58022,1.04286,False
+Distance to station (km),dist_rail_km,-0.04978,0.02823,-1.76323,0.07786,0.95144,0.90023,1.00557,False
+Distance to CBD (km),dist_cbd_km,0.00822,0.02213,0.37136,0.71037,1.00825,0.96545,1.05295,False
+Thane (vs. Pune),district_Thane,0.20146,0.17663,1.14062,0.25403,1.22319,0.86527,1.72917,False
+Municipal corporation,municipal_corp,-0.45726,0.26001,-1.75867,0.07863,0.63301,0.38027,1.05373,False
+FY 2024–25 (vs. 2023–24),fy_2024_25,-0.11042,0.17236,-0.64062,0.52177,0.89546,0.63875,1.25534,False
+FY 2025–26 (vs. 2023–24),fy_2025_26,-0.44245,0.1806,-2.44982,0.01429,0.64246,0.45094,0.91533,True

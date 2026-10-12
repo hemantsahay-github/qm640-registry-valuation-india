@@ -88,3 +88,14 @@ def test_rq3_paired_tests_detect_a_real_advantage():
     t, p2 = st.ttest_rel(np.abs(y[te] - p_o), np.abs(y[te] - p_x))
     assert d.mean() > 0 and t > 0 and p2 / 2 < 0.05
     assert diebold_mariano(np.asarray(d))[1] < 0.05
+
+
+def test_rq4_helpers():
+    from src.models.rq4_anchoring import bootstrap_median_ci, classification_metrics, youden_threshold
+    y = np.array([0, 0, 1, 1, 0, 1, 0, 0])
+    p = np.array([.1, .2, .8, .7, .3, .9, .4, .2])
+    m = classification_metrics(y, p, 0.5)
+    assert m["AUC"] == 1.0 and m["TP"] == 3 and m["FP"] == 0 and m["F1"] == 1.0
+    assert 0.4 < youden_threshold(y, p) <= 0.7
+    lo, hi = bootstrap_median_ci(np.array([1.1, 1.2, 1.3, 1.25, 1.15] * 4))
+    assert 1.1 <= lo <= 1.2 <= hi <= 1.3

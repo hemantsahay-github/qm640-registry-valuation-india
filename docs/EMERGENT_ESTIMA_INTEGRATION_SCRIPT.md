@@ -1,6 +1,6 @@
 # Emergent.ai Build Script: Integrating the Circle-Rate Anchoring Research into Estima (estima.co.in)
 
-**Owner:** Hemant Kumar Sahay · **Confidential — proprietary research IP** · Version 1.0, 11 October 2026
+**Owner:** Hemant Kumar Sahay · **Confidential — proprietary research IP** · Version 1.1, 12 October 2026
 **Source research:** QM 640 Capstone, *Correcting for Circle-Rate Anchoring in Indian Residential Property Valuation*. Repository: `qm640-registry-valuation-india` (private).
 
 This file is a sequence of prompts to paste into Emergent.ai, one phase at a time. Wait until each phase has been built and tested before pasting the next. Text in `[[double brackets]]` is filled in once the matching research stage is finished.
@@ -82,6 +82,8 @@ Collections / tables (server-side only):
    - micro_market_id, fy ("2023-24" | "2024-25" | "2025-26" | "pooled")
    - n_transactions (int), n_anchored (int), anchored_share (0-1)
    - cf_median (float), cf_ci_low (float), cf_ci_high (float)
+   - cf_eb (float)  -> partially pooled factor for localities with few anchored deals; show
+     it as "estimated from nearby localities" when reportable = false
    - reportable (bool)  -> false when n_anchored < 20 (show "insufficient data")
    - model_version (string), published_at (datetime)
 3. fair_value_queries (user audit log, DPDP-minimal)
@@ -237,7 +239,7 @@ QA:
 | File from research repo | Emergent collection | Produced by | Status |
 |---|---|---|---|
 | `data/external/osm/locality_gazetteer.csv` | micro_markets | osm_features.py | Seed ready (approximate coordinates) |
-| `outputs/rq4/correction_factors.csv` | correction_factors | rq4_anchoring.py | [[pending, Week 7]] |
+| `outputs/rq4/correction_factors.csv` | correction_factors (schema matches Phase 1; extra column `cf_eb` = shrunk factor for thin localities) | rq4_anchoring.py | Code ready; current file is SYNTHETIC — upload only after the study-data run |
 | `outputs/rq1/rq1_by_segment.csv` | anchored_share by district/FY (marketing copy) | rq1_bunching.py | Pipeline validated; study run pending real data |
 | `api/score_endpoint.py` (FastAPI) | Phase 4 private API | Week 8 | [[pending]] |
 

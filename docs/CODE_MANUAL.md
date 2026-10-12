@@ -2,7 +2,7 @@
 
 **Project:** Correcting for Circle-Rate Anchoring in Indian Residential Property Valuation: A Registry-Based Machine Learning Study
 **Author / IP owner:** Hemant Kumar Sahay · QM 640 Data Analytics Capstone, Walsh College
-**Manual version:** 1.2 (12 October 2026), covering Stage 0 (setup), ETL, EDA and RQ1–RQ3. The RQ4 section is added when that stage is run.
+**Manual version:** 2.0 (12 October 2026), covering the complete pipeline: Stage 0 (setup), ETL, EDA and RQ1–RQ4, all validated on synthetic data. The next update comes with the first study-data run.
 
 ---
 
@@ -153,6 +153,34 @@ Filters run in order and each excluded row is logged in `data/processed/exclusio
 
 **How to explain it to a mentor:** "Both models predict prices in neighbourhoods they have never seen. If boosting's errors are smaller by a margin the paired tests call significant, the extra complexity is justified. If not, the simpler hedonic model is the better tool, which is also a useful finding."
 
+### 3.11c `src/models/rq4_anchoring.py`
+**Part A: what predicts anchoring** (anchored = 1 if 0.98 ≤ R < 1.02)
+1. **Logistic regression** on the full sample, using the 12 RQ2 predictors. Outputs:
+   - odds ratios with 95% CIs
+   - likelihood-ratio test against the null model
+   - McFadden pseudo-R²
+   - events-per-variable check (target ≥ 10)
+   - Box–Tidwell test, which adds x·ln x terms for the positive continuous predictors to check linearity in the logit
+2. **Out-of-sample check** on the same held-out micro-markets as RQ3:
+   - logistic regression against a tuned XGBoost classifier (grouped CV, AUC objective)
+   - AUC, Brier score, precision, recall, F1 and the confusion matrix
+   - the classification threshold is set on the training data (Youden J), never on the test data
+   - a bootstrap CI for the AUC difference between the two models
+
+**Part B: correction factor**
+3. **Value model:** the RQ3 winner, read automatically from `rq3/summary.json` (OLS unless XGBoost won significantly). It is retrained on **non-anchored** deals only and then predicts the value of anchored deals.
+4. **Factor:** CF_i = predicted ÷ registered value. CF_m is the median over the anchored deals in each micro-market, with a bootstrap 95% CI. It is marked `reportable` only when there are at least 20 anchored deals.
+5. **Thin micro-markets:** an empirical-Bayes shrinkage factor (`cf_eb`) pools each micro-market toward its district mean. SRO-level factors (`rq4_cf_by_sro.csv`) give a coarser unit that reaches the threshold sooner.
+6. **Outputs:**
+   - `correction_factors.csv`, in the schema Estima uploads (see the Emergent.ai script, Phase 1)
+   - CF by district and FY
+   - a RESIDEX direction check when `data/external/residex/residex.csv` exists
+   - figures: ROC curve, odds-ratio forest plot, correction factors, calibration
+
+**Synthetic truth check:** `python -m scripts.validate_synthetic_truth` compares the estimated CF with the true CF that the generator stores. It works only on synthetic data.
+
+**How to explain it to a mentor:** "The logit tells us *who* registers at the circle rate. The correction factor tells us *by how much* those registrations understate value. A CF of 1.30 means the registered figure is about 30% below what comparable non-anchored deals imply. Because even non-anchored deals can be understated, this is a lower bound."
+
 ### 3.12 `src/utils/results_log.py` and `plotstyle.py`
 The logger writes the RQ-labelled entries in `RESULTS_LOG.md`. The style module fixes colors (Pune blue, Thane orange), uses a diverging map for correlations, and adds a data-source footer to every figure so synthetic figures can never be mistaken for findings.
 
@@ -175,7 +203,7 @@ This script recomputes every minimum N. RQ1: CI for a proportion → 1,068. RQ2:
 | RQ1 | 11-Oct-2026 | Synthetic validation | b = 35.2, bootstrap 95% CI [25.6, 52.7], p < .002; excess share 12.1% vs known truth ≈ 13.8%, so the estimator works; robust across degrees 5–9 (b 21.9–36.6) | `outputs/rq1/` |
 | RQ2 | 11-Oct-2026 | Synthetic validation | R² 0.864 → 0.891 (ΔR² = .027, f² = .25); partial F(11, 1697) = 38.2, p < .001 (HC3 Wald F = 40.5). Recovered the effects built into the synthetic data: floor +0.34%/floor, parking +4.1%, FY drift +4.8% and +9.3%. Correctly found no effect for area, area basis, station distance or municipal status. ASR elasticity 1.24. VIF max 5.18 (ln ASR rate, collinear with CBD distance). Breusch–Pagan significant, so HC3 is needed. The negative-residual cluster in the residual plot is the anchoring signature that RQ3/RQ4 target | `outputs/rq2/` |
 | RQ3 | 12-Oct-2026 | Synthetic validation | 8 held-out micro-markets, n_test = 404 (≥ 199). OLS beat XGBoost: MAE_log 0.102 vs 0.109, MAPE 10.4% vs 11.3%. Mean d = −0.0069, paired t(403) = −2.66, one-sided p = .996, so H0 is not rejected. OLS won all 5 grouped-CV folds. This is the correct outcome, because the synthetic data are log-linear with no interactions. A unit-test power check confirms the tests do detect a real XGBoost advantage. Bias audit: anchored deals have about 2× the error (0.21 vs 0.09), which motivates RQ4. Top SHAP features: ASR rate, new sale, FY 2025–26, floor, carpet area | `outputs/rq3/` |
-| RQ4 | — | — | pending | — |
+| RQ4 | 12-Oct-2026 | Synthetic validation | 229 anchored (EPV = 19.1). LR χ²(12) = 59.9, p < .001; McFadden R² = .045. Significant odds ratios: new sale 0.41 (the generator's true value is 0.41), FY 2025–26 0.64, floor 0.98. Held-out AUC: logit .59, XGBoost .57 (difference not significant). Low predictability is expected because synthetic anchoring is mostly random. Pooled CF = 1.31 [1.28, 1.36] (Pune 1.35, Thane 1.29). **Truth check:** true CF = 1.38, so the estimate recovers 95%, and the shortfall is the built-in under-statement of non-anchored deals (lower bound confirmed). 0 of 35 micro-markets reach 20 anchored (median 6); 5 of 12 SROs do, so EB shrinkage and SRO-level factors are provided | `outputs/rq4/` |
 
 Study-data rows replace the synthetic rows once real Index-II records are collected.
 

@@ -12,7 +12,7 @@ It measures how far registered apartment values in Pune and Thane districts (Mah
 | RQ1 | How much do registered values bunch at the ASR value? | Bunching estimator, bootstrap CI | `src/models/rq1_bunching.py` | ✅ code validated |
 | RQ2 | Which attributes explain value beyond the ASR rate? | Hedonic OLS, partial F test, HC3 | `src/models/rq2_hedonic.py` | ✅ code validated |
 | RQ3 | Does XGBoost beat OLS on unseen micro-markets? | Grouped CV, paired t / Wilcoxon / DM | `src/models/rq3_gbm_vs_ols.py` | ✅ code validated |
-| RQ4 | What predicts anchoring, and what is the correction factor? | Logistic regression + XGB classifier | `src/models/rq4_anchoring.py` | ⏳ next |
+| RQ4 | What predicts anchoring, and what is the correction factor? | Logistic regression + XGB classifier | `src/models/rq4_anchoring.py` | ✅ code validated |
 
 ## Quick start
 
@@ -26,10 +26,11 @@ python -m pytest -q tests                                         # parser, DPDP
 python -m src.ingest.synthetic_validation
 python -m src.pipeline --stage etl --synthetic
 python -m src.pipeline --stage eda
-python -m src.pipeline --stage rq1
+python -m src.pipeline --stage rq1        # then rq2, rq3, rq4
+python -m scripts.validate_synthetic_truth  # synthetic only: estimated vs true correction factor
 
 # B. Study run (real data, on your laptop: the portal needs a CAPTCHA)
-python scripts/make_search_keys.py --sro-file data/external/sro_villages.csv
+python -m scripts.make_search_keys --sro-file data/external/sro_villages.csv
 python -m src.ingest.igr_index2 --district Pune --max 200          # repeat per stratum
 python -m src.pipeline --stage etl                                 # then eda, rq1 ... rq4
 ```

@@ -1,0 +1,13 @@
+sro_code,district,n_anchored,cf_median,cf_ci_low,cf_ci_high,reportable
+SRO00,Thane,22,1.2969,1.2496,1.4095,True
+SRO01,Pune,11,1.3873,1.3258,1.4292,False
+SRO02,Pune,19,1.3369,1.2311,1.3905,False
+SRO03,Pune,17,1.4246,1.3521,1.503,False
+SRO04,Pune,21,1.3419,1.2788,1.3782,True
+SRO05,Thane,18,1.39,1.251,1.4937,False
+SRO06,Pune,21,1.2706,1.2098,1.4229,True
+SRO07,Pune,18,1.2766,1.241,1.3505,False
+SRO08,Thane,24,1.3556,1.1785,1.4306,True
+SRO09,Thane,18,1.3075,1.1726,1.4126,False
+SRO10,Thane,22,1.2684,1.2237,1.2857,True
+SRO11,Thane,18,1.3019,1.2101,1.419,False

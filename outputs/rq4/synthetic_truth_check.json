@@ -1,0 +1,15 @@
+{
+  "anchored_matched": 229,
+  "true_cf_median_pooled": 1.3788,
+  "estimated_cf_median_pooled": 1.3095,
+  "estimate_over_truth": 0.9498,
+  "true_cf_by_district": {
+    "Pune": 1.4017,
+    "Thane": 1.3622
+  },
+  "estimated_cf_by_district": {
+    "Pune": 1.3477,
+    "Thane": 1.2898
+  },
+  "note": "Estimate < truth is expected: the value model is trained on non-anchored deals, which the generator also understates by 0-12% (mean ~6%). The correction factor is therefore a LOWER BOUND, as stated in the synopsis limitations."
+}

@@ -36,6 +36,11 @@ INTERPRET = {
            "p < .05 (paired t, Wilcoxon, Diebold-Mariano) means XGBoost predicts registered value more "
            "accurately than OLS. The cluster bootstrap is the conservative check because errors within "
            "a locality are correlated. SHAP shows which features drive the XGBoost predictions.",
+    "RQ4": "Odds ratios above 1 mark characteristics that make anchoring more likely; the LR test asks "
+           "whether any predictor matters at all, and AUC on held-out micro-markets shows how well "
+           "anchoring can be predicted. The correction factor CF is the median of predicted / registered "
+           "value for anchored deals: CF = 1.20 means registered values understate the model value by "
+           "about 20%. Because non-anchored deals may also be understated, CF is a lower bound.",
 }
 STAGES = {"etl": "src.etl", "eda": "src.eda", "rq1": "src.models.rq1_bunching",
           "rq2": "src.models.rq2_hedonic", "rq3": "src.models.rq3_gbm_vs_ols",

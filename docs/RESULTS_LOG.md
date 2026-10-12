@@ -397,3 +397,138 @@ Models are compared only on micro-markets never seen in training. A positive mea
 - `/home/claude/work/qm640-registry-valuation-india/outputs/rq3/xgb_model.json`
 
 ---
+## RQ4 — 2026-10-12 08:16
+
+**Data:** PIPELINE VALIDATION — SYNTHETIC DATA (not study findings)
+
+**Key results**
+
+```json
+{
+  "n": 1710,
+  "events_anchored": 229,
+  "predictors": 12,
+  "EPV": 19.1,
+  "EPV_ok_ge_10": true,
+  "LR_chi2": 59.863,
+  "LR_df": 12,
+  "LR_p": 2.39e-08,
+  "mcfadden_pseudo_R2": 0.0445,
+  "decision_alpha_0.05": "Reject H0: predictors are associated with anchoring",
+  "significant_predictors_OR": {
+    "Floor (per floor)": 0.983,
+    "New sale (promoter)": 0.409,
+    "FY 2025\u201326 (vs. 2023\u201324)": 0.642
+  },
+  "box_tidwell_violations": [
+    "ln_asr_rate_m2"
+  ],
+  "test_logistic": {
+    "AUC": 0.5927,
+    "Brier": 0.1073,
+    "threshold": 0.1223,
+    "precision": 0.1447,
+    "recall": 0.6735,
+    "F1": 0.2383,
+    "TP": 33,
+    "FP": 195,
+    "FN": 16,
+    "TN": 160
+  },
+  "test_xgboost": {
+    "AUC": 0.5715,
+    "Brier": 0.1101,
+    "threshold": 0.1595,
+    "precision": 0.1481,
+    "recall": 0.4082,
+    "F1": 0.2174,
+    "TP": 20,
+    "FP": 115,
+    "FN": 29,
+    "TN": 240
+  },
+  "auc_diff_xgb_minus_logit_ci95": [
+    -0.0803,
+    0.0367
+  ],
+  "value_model_for_cf": "OLS hedonic (RQ3: no significant XGBoost advantage)",
+  "cf_pooled_median": 1.3095,
+  "cf_pooled_ci95": [
+    1.2795,
+    1.358
+  ],
+  "cf_by_district": {
+    "Pune": 1.3477,
+    "Thane": 1.2898
+  },
+  "cf_by_fy": {
+    "2023-24": 1.2428,
+    "2024-25": 1.3578,
+    "2025-26": 1.4306
+  },
+  "micro_markets_total": 35,
+  "micro_markets_reportable": 0,
+  "median_anchored_per_micro_market": 6.0,
+  "eb_shrinkage_tau2_sigma2": [
+    0.00665,
+    0.00431
+  ],
+  "sro_reportable": "5 of 12 SROs",
+  "residex_check": "RESIDEX file not present \u2014 run direction check after downloading data/external/residex/residex.csv"
+}
+```
+
+**Interpretation**
+
+Odds ratios above 1 mark characteristics that make anchoring more likely; the LR test asks whether any predictor matters at all, and AUC on held-out micro-markets shows how well anchoring can be predicted. The correction factor CF is the median of predicted / registered value for anchored deals: CF = 1.20 means registered values understate the model value by about 20%. Because non-anchored deals may also be understated, CF is a lower bound.
+
+**Output files**
+
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/correction_factors.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/fig_rq4_calibration.png`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/fig_rq4_correction_factors.png`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/fig_rq4_odds_ratios.png`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/fig_rq4_roc.png`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/rq4_box_tidwell.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/rq4_cf_by_segment.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/rq4_cf_by_sro.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/rq4_classification_test_metrics.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/rq4_logit_odds_ratios.csv`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/rq4_logit_summary.txt`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/summary.json`
+- `/home/claude/work/qm640-registry-valuation-india/outputs/rq4/synthetic_truth_check.json`
+
+---
+## RQ4 — SYNTHETIC TRUTH CHECK — 2026-10-12 08:16
+
+**Data:** PIPELINE VALIDATION — SYNTHETIC DATA (not study findings)
+
+**Key results**
+
+```json
+{
+  "anchored_matched": 229,
+  "true_cf_median_pooled": 1.3788,
+  "estimated_cf_median_pooled": 1.3095,
+  "estimate_over_truth": 0.9498,
+  "true_cf_by_district": {
+    "Pune": 1.4017,
+    "Thane": 1.3622
+  },
+  "estimated_cf_by_district": {
+    "Pune": 1.3477,
+    "Thane": 1.2898
+  },
+  "note": "Estimate < truth is expected: the value model is trained on non-anchored deals, which the generator also understates by 0-12% (mean ~6%). The correction factor is therefore a LOWER BOUND, as stated in the synopsis limitations."
+}
+```
+
+**Interpretation**
+
+The pipeline's correction factor (1.31) recovers 95% of the true factor (1.38) and preserves the district ordering (Pune > Thane). The 5% shortfall equals the under-statement built into non-anchored deals, confirming that the correction factor is a conservative lower bound.
+
+**Output files**
+
+- `outputs/rq4/synthetic_truth_check.json`
+
+---

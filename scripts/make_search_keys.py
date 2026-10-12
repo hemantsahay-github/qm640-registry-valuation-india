@@ -8,7 +8,7 @@ Target  : 1,800 raw records (N = 1,068 / 0.60, rounded) -> 25 per stratum
           with 6 SROs per district (2 x 6 x 12 = 144 strata).
 Output  : data/external/search_plan.csv  (tick off 'done' while collecting)
 
-    python scripts/make_search_keys.py --sro-file data/external/sro_villages.csv
+    python -m scripts.make_search_keys --sro-file data/external/sro_villages.csv
 sro_villages.csv columns: district, sro_name, village  (copied from the portal dropdowns)
 """
 import argparse
