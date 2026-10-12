@@ -67,3 +67,24 @@ def test_rq2_design_has_u11_k12():
                        "municipal_corp": [1], "district": ["Thane"], "fy": ["2025-26"]})
     X = design(df)
     assert len(ATTRS) == 11 and X.shape[1] == 12 and X["district_Thane"].iloc[0] == 1 and X["fy_2025_26"].iloc[0] == 1
+
+
+def test_rq3_paired_tests_detect_a_real_advantage():
+    """Power check of the RQ3 machinery: when the truth has a strong
+    interaction that OLS cannot represent, XGBoost must win and the one-sided
+    tests must reject H0."""
+    from scipy import stats as st
+    from xgboost import XGBRegressor
+    import statsmodels.api as sm
+    from src.models.rq3_gbm_vs_ols import diebold_mariano
+    rng = np.random.default_rng(7)
+    n = 1500
+    X = pd.DataFrame({"a": rng.uniform(0, 1, n), "b": rng.uniform(0, 1, n), "c": rng.integers(0, 2, n)})
+    y = 11 + 0.8 * X.a + 0.6 * np.where(X.c == 1, X.b, -X.b) + 0.3 * np.sin(6 * X.a) + rng.normal(0, 0.05, n)
+    tr, te = np.arange(1200), np.arange(1200, n)
+    p_o = sm.OLS(y[tr], sm.add_constant(X.iloc[tr])).fit().predict(sm.add_constant(X.iloc[te]))
+    p_x = XGBRegressor(n_estimators=300, max_depth=3, learning_rate=0.1).fit(X.iloc[tr], y[tr]).predict(X.iloc[te])
+    d = np.abs(y[te] - p_o) - np.abs(y[te] - p_x)
+    t, p2 = st.ttest_rel(np.abs(y[te] - p_o), np.abs(y[te] - p_x))
+    assert d.mean() > 0 and t > 0 and p2 / 2 < 0.05
+    assert diebold_mariano(np.asarray(d))[1] < 0.05

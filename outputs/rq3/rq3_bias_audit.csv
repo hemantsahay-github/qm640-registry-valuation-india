@@ -1,0 +1,10 @@
+segment,level,n,MAE_log_OLS,MAE_log_XGB
+district,Pune,139,0.11315,0.12138
+district,Thane,265,0.09563,0.10185
+price_band,low,135,0.09511,0.1002
+price_band,mid,134,0.12704,0.13838
+price_band,high,135,0.08301,0.08735
+new_sale,0,239,0.10123,0.10646
+new_sale,1,165,0.10227,0.11164
+anchored,0,355,0.08729,0.09174
+anchored,1,49,0.20572,0.23054

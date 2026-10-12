@@ -32,6 +32,10 @@ INTERPRET = {
            "value beyond the ASR rate. A small dR^2 together with an ASR elasticity close to 1 would "
            "itself point to anchoring (registered values tracking the circle rate). Read significance "
            "with HC3 errors; the clustered errors are the conservative check.",
+    "RQ3": "Models are compared only on micro-markets never seen in training. A positive mean d with "
+           "p < .05 (paired t, Wilcoxon, Diebold-Mariano) means XGBoost predicts registered value more "
+           "accurately than OLS. The cluster bootstrap is the conservative check because errors within "
+           "a locality are correlated. SHAP shows which features drive the XGBoost predictions.",
 }
 STAGES = {"etl": "src.etl", "eda": "src.eda", "rq1": "src.models.rq1_bunching",
           "rq2": "src.models.rq2_hedonic", "rq3": "src.models.rq3_gbm_vs_ols",

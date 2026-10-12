@@ -1,0 +1,15 @@
+feature,mean_abs_shap
+ln ASR rate (₹/m²),0.32449
+New sale (promoter),0.03695
+FY 2025–26 (vs. 2023–24),0.03003
+Floor (per floor),0.02515
+ln carpet area (m²),0.01521
+FY 2024–25 (vs. 2023–24),0.01455
+Parking included,0.0141
+Distance to CBD (km),0.01389
+Distance to station (km),0.00882
+Latitude,0.00387
+Longitude,0.00377
+Carpet area recorded directly,0.00297
+Thane (vs. Pune),0.00095
+Municipal corporation,0.00071

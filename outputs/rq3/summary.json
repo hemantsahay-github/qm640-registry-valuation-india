@@ -1,0 +1,74 @@
+{
+  "n_train": 1306,
+  "n_test": 404,
+  "min_test_required": 199,
+  "test_micro_markets": [
+    "Badlapur",
+    "Bhiwandi",
+    "Dhanori",
+    "Kalwa",
+    "Kasarvadavali",
+    "Pimple Saudagar",
+    "Ulhasnagar",
+    "Viman Nagar"
+  ],
+  "n_test_micro_markets": 8,
+  "best_params": {
+    "subsample": 0.7,
+    "reg_lambda": 1.0,
+    "n_estimators": 200,
+    "min_child_weight": 10,
+    "max_depth": 4,
+    "learning_rate": 0.05,
+    "colsample_bytree": 1.0
+  },
+  "cv_MAE_log_best": 0.13536,
+  "test_metrics_OLS": {
+    "RMSE_log": 0.1327,
+    "MAE_log": 0.1017,
+    "R2_log": 0.8761,
+    "RMSE_inr_m2": 15906.8782,
+    "MAE_inr_m2": 11161.0919,
+    "MAPE_pct": 10.3733
+  },
+  "test_metrics_XGB": {
+    "RMSE_log": 0.1417,
+    "MAE_log": 0.1086,
+    "R2_log": 0.8587,
+    "RMSE_inr_m2": 17260.7128,
+    "MAE_inr_m2": 12120.0373,
+    "MAPE_pct": 11.2932
+  },
+  "paired_tests": {
+    "n_test": 404,
+    "mean_d": -0.00692,
+    "sd_d": 0.05215,
+    "cohens_dz": -0.13259,
+    "paired_t": -2.66499,
+    "df": 403,
+    "p_t_one_sided": 0.996,
+    "wilcoxon_W": 35010.0,
+    "p_wilcoxon_one_sided": 0.99397,
+    "dm_hln": -2.66499,
+    "p_dm_one_sided": 0.996,
+    "cluster_boot_ci95_mean_d": [
+      -0.013333622817139273,
+      -0.0008726193060122635
+    ],
+    "p_cluster_boot": 0.9905,
+    "share_cases_xgb_better": 0.47277
+  },
+  "decision_alpha_0.05": "Fail to reject H0: no significant advantage for XGBoost",
+  "grouped_cv_mean_MAE_log": {
+    "OLS": 0.11166,
+    "XGB": 0.11898,
+    "folds_xgb_better": 0
+  },
+  "top5_shap": [
+    "ln ASR rate (₹/m²)",
+    "New sale (promoter)",
+    "FY 2025–26 (vs. 2023–24)",
+    "Floor (per floor)",
+    "ln carpet area (m²)"
+  ]
+}

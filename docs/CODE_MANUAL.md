@@ -2,7 +2,7 @@
 
 **Project:** Correcting for Circle-Rate Anchoring in Indian Residential Property Valuation: A Registry-Based Machine Learning Study
 **Author / IP owner:** Hemant Kumar Sahay · QM 640 Data Analytics Capstone, Walsh College
-**Manual version:** 1.1 (11 October 2026), covering Stage 0 (setup), ETL, EDA, RQ1 and RQ2. Sections for RQ3–RQ4 are added as each stage is run.
+**Manual version:** 1.2 (12 October 2026), covering Stage 0 (setup), ETL, EDA and RQ1–RQ3. The RQ4 section is added when that stage is run.
 
 ---
 
@@ -135,6 +135,24 @@ Filters run in order and each excluded row is logged in `data/processed/exclusio
 
 **How to explain it to a mentor:** "The ASR rate alone explains most of the variation in registered value. The question is whether flat-level and location attributes add anything beyond it. If they add little and the ASR elasticity is about 1, registered values are simply tracking the circle rate."
 
+### 3.11b `src/models/rq3_gbm_vs_ols.py`
+1. **Hold-out:** about 20% of *micro-markets* are held out with `GroupShuffleSplit` (seed 640), so every test locality is unseen in training. The test set must have at least 199 cases (synopsis RQ3 sample size).
+2. **Models:** OLS uses the RQ2 full specification. XGBoost uses the same 12 predictors plus latitude and longitude, and its parameters are tuned by a 30-draw randomized search with 5-fold `GroupKFold` on the training markets (MAE objective).
+3. **Metrics:** RMSE, MAE and R² on the log scale, and RMSE, MAE and MAPE in ₹ per m² (synopsis Equations 3–4).
+4. **Tests on d = |e_OLS| − |e_XGB|** (Equation 5):
+   - paired *t* (one-sided)
+   - Wilcoxon signed-rank
+   - Diebold–Mariano with the HLN correction. For a cross-section with h = 1 it equals the paired *t*, which is expected.
+   - cluster bootstrap over test micro-markets, the conservative check
+5. **Robustness:** 5-fold grouped CV over all localities, for both models.
+6. **Bias audit:** MAE by district, price tercile, new-sale status and anchoring status.
+7. **SHAP:** TreeExplainer on the test set, with a beeswarm plot and a mean-|SHAP| importance chart.
+8. **Saved model:** `xgb_model.json` and `best_params.json`, which RQ4 reuses.
+
+**Power check (unit test):** `test_rq3_paired_tests_detect_a_real_advantage` builds data with an interaction OLS cannot fit. It confirms that XGBoost wins and that the one-sided tests reject H0, so a "no advantage" result is not caused by the code.
+
+**How to explain it to a mentor:** "Both models predict prices in neighbourhoods they have never seen. If boosting's errors are smaller by a margin the paired tests call significant, the extra complexity is justified. If not, the simpler hedonic model is the better tool, which is also a useful finding."
+
 ### 3.12 `src/utils/results_log.py` and `plotstyle.py`
 The logger writes the RQ-labelled entries in `RESULTS_LOG.md`. The style module fixes colors (Pune blue, Thane orange), uses a diverging map for correlations, and adds a data-source footer to every figure so synthetic figures can never be mistaken for findings.
 
@@ -156,7 +174,7 @@ This script recomputes every minimum N. RQ1: CI for a proportion → 1,068. RQ2:
 | EDA | 11-Oct-2026 | Synthetic validation | No nulls after cleaning (26 missing areas before); r(ln value, ln ASR) = .93; median R = 1.31 | `outputs/eda/` |
 | RQ1 | 11-Oct-2026 | Synthetic validation | b = 35.2, bootstrap 95% CI [25.6, 52.7], p < .002; excess share 12.1% vs known truth ≈ 13.8%, so the estimator works; robust across degrees 5–9 (b 21.9–36.6) | `outputs/rq1/` |
 | RQ2 | 11-Oct-2026 | Synthetic validation | R² 0.864 → 0.891 (ΔR² = .027, f² = .25); partial F(11, 1697) = 38.2, p < .001 (HC3 Wald F = 40.5). Recovered the effects built into the synthetic data: floor +0.34%/floor, parking +4.1%, FY drift +4.8% and +9.3%. Correctly found no effect for area, area basis, station distance or municipal status. ASR elasticity 1.24. VIF max 5.18 (ln ASR rate, collinear with CBD distance). Breusch–Pagan significant, so HC3 is needed. The negative-residual cluster in the residual plot is the anchoring signature that RQ3/RQ4 target | `outputs/rq2/` |
-| RQ3 | — | — | pending | — |
+| RQ3 | 12-Oct-2026 | Synthetic validation | 8 held-out micro-markets, n_test = 404 (≥ 199). OLS beat XGBoost: MAE_log 0.102 vs 0.109, MAPE 10.4% vs 11.3%. Mean d = −0.0069, paired t(403) = −2.66, one-sided p = .996, so H0 is not rejected. OLS won all 5 grouped-CV folds. This is the correct outcome, because the synthetic data are log-linear with no interactions. A unit-test power check confirms the tests do detect a real XGBoost advantage. Bias audit: anchored deals have about 2× the error (0.21 vs 0.09), which motivates RQ4. Top SHAP features: ASR rate, new sale, FY 2025–26, floor, carpet area | `outputs/rq3/` |
 | RQ4 | — | — | pending | — |
 
 Study-data rows replace the synthetic rows once real Index-II records are collected.

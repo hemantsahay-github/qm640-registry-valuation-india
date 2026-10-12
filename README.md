@@ -11,8 +11,8 @@ It measures how far registered apartment values in Pune and Thane districts (Mah
 |----|----------|--------|--------|--------|
 | RQ1 | How much do registered values bunch at the ASR value? | Bunching estimator, bootstrap CI | `src/models/rq1_bunching.py` | ✅ code validated |
 | RQ2 | Which attributes explain value beyond the ASR rate? | Hedonic OLS, partial F test, HC3 | `src/models/rq2_hedonic.py` | ✅ code validated |
-| RQ3 | Does XGBoost beat OLS on unseen micro-markets? | Grouped CV, paired t / Wilcoxon / DM | `src/models/rq3_gbm_vs_ols.py` | ⏳ next |
-| RQ4 | What predicts anchoring, and what is the correction factor? | Logistic regression + XGB classifier | `src/models/rq4_anchoring.py` | ⏳ |
+| RQ3 | Does XGBoost beat OLS on unseen micro-markets? | Grouped CV, paired t / Wilcoxon / DM | `src/models/rq3_gbm_vs_ols.py` | ✅ code validated |
+| RQ4 | What predicts anchoring, and what is the correction factor? | Logistic regression + XGB classifier | `src/models/rq4_anchoring.py` | ⏳ next |
 
 ## Quick start
 
