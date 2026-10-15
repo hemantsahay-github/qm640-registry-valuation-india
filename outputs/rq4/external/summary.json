@@ -1,0 +1,4 @@
+{
+  "status": "SKIPPED",
+  "reason": "no index file: load RBI HPI (python -m src.live.rbi_hpi --load <file>) or RESIDEX (python -m src.live.nhb_residex --load <file>)"
+}

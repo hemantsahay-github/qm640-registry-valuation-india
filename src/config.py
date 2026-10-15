@@ -75,3 +75,16 @@ PUBLISHABLE_COLUMNS = [            # whitelist: only these leave the machine
 
 # --------------------------------------------------------------------------- rate limiting
 SCRAPE_DELAY_SECONDS = (6, 12)     # random pause between portal requests
+
+# --------------------------------------------------------------------------- live data (src/live/)
+# DATA_MODE documents which data a run is meant to use. "live" = real public
+# sources via src/live/*; "synthetic" = the frozen validation dataset
+# (preserved on branch archive/v1.0-synthetic-validation).
+DATA_MODE = os.environ.get("QM640_DATA_MODE", "live")
+LIVE_DIR = EXTERNAL_DIR                         # live files land in data/external/<source>/
+LIVE_CACHE_DIR = EXTERNAL_DIR / "cache"         # raw HTTP responses (git-ignored)
+LIVE_PROVENANCE = DOCS_DIR / "live_provenance_log.csv"
+LIVE_CONFIG = EXTERNAL_DIR / "live_config.json" # data.gov.in resource IDs etc.
+CONTACT_EMAIL = os.environ.get("QM640_CONTACT_EMAIL", "")   # sent in User-Agent (OSM policy)
+DATAGOVIN_API_KEY = os.environ.get("DATAGOVIN_API_KEY", "")  # never commit
+STUDY_CITIES = ("Pune", "Thane")

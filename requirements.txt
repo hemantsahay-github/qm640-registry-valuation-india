@@ -1,5 +1,6 @@
 # Python 3.11+  (pinned for reproducibility)
 pandas>=2.2
+requests>=2.31          # live-data connectors (src/live)
 numpy>=1.26
 scipy>=1.13
 statsmodels>=0.14

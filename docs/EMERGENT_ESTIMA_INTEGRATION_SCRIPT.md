@@ -1,6 +1,6 @@
 # Emergent.ai Build Script: Integrating the Circle-Rate Anchoring Research into Estima (estima.co.in)
 
-**Owner:** Hemant Kumar Sahay · **Confidential — proprietary research IP** · Version 1.1, 12 October 2026
+**Owner:** Hemant Kumar Sahay · **Confidential — proprietary research IP** · Version 1.2, 16 October 2026 (adds Phase 7: live public-data feeds)
 **Source research:** QM 640 Capstone, *Correcting for Circle-Rate Anchoring in Indian Residential Property Valuation*. Repository: `qm640-registry-valuation-india` (private).
 
 This file is a sequence of prompts to paste into Emergent.ai, one phase at a time. Wait until each phase has been built and tested before pasting the next. Text in `[[double brackets]]` is filled in once the matching research stage is finished.
@@ -11,11 +11,12 @@ This file is a sequence of prompts to paste into Emergent.ai, one phase at a tim
 
 1. Open the existing Estima project in Emergent (or a branch or copy of it, so the live site is not affected).
 2. Paste **Phase 0** first. It gives Emergent the context and the guardrails, and it asks for a plan rather than code.
-3. Paste Phases 1 to 6 in order. Each phase ends with acceptance tests. Ask Emergent to run them and show you the result before moving on.
+3. Paste Phases 1 to 7 in order. Each phase ends with acceptance tests. Ask Emergent to run them and show you the result before moving on.
 4. Research dependencies:
    - Phases 1 and 2 can be built now, using placeholder data.
    - Phase 3 needs the RQ4 correction-factor table (Week 7).
    - Phase 4 needs the scoring endpoint (Week 8).
+   - Phase 7 (live data feeds) can start now for data.gov.in and OpenStreetMap. The index panels need the research repo's `src/live` loaders to have run once.
 
 | Phase | Builds | Depends on research stage | Earliest |
 |---|---|---|---|
@@ -26,6 +27,7 @@ This file is a sequence of prompts to paste into Emergent.ai, one phase at a tim
 | 4 | Live model scoring through a private API | RQ3 model + FastAPI endpoint | Week 8 |
 | 5 | Integration into Net Worth Dashboard, Transaction History Explorer, Rental Snowball Planner | Phases 2–4 | Week 8–9 |
 | 6 | DPDP, IP protection, disclaimers, QA and release | All | Week 9–10 |
+| 7 | Live public-data feeds: market index panel, locality data refresh, quarterly correction-factor refresh | `src/live/` connectors (done); study run for factors | Now (feeds) / after study run (factors) |
 
 ---
 
@@ -234,11 +236,66 @@ QA:
 
 ---
 
+## Phase 7 — Live public-data feeds *(feeds now; factor refresh after the study run)*
+
+The research repository now has live connectors (`src/live/`) for every public source in the synopsis. Only **data.gov.in** and **OpenStreetMap** have official APIs. The RBI house price index (which covers Pune and Thane), NHB RESIDEX, IGR ready-reckoner rates and MahaRERA come from their official exports. Estima uses the *normalised files* produced by the research pipeline, plus the two real APIs directly.
+
+```
+Add a live-data layer to the Fair Value feature. Keep every API key on the SERVER
+(environment variables); never call government APIs from the browser.
+
+1. New collection market_index (server-side):
+   - city ("Pune" | "Thane"), quarter ("FY26Q1" style), index (float),
+     series ("RBI HPI (base 2022-23=100)" | "NHB RESIDEX HPI @ assessment price"),
+     source (text), loaded_at (datetime)
+   Admin upload on /admin/fair-value-data accepts the research files
+   rbi_hpi.csv and residex.csv (exact columns: city, quarter, index, series, source).
+   Optional: if env DATAGOVIN_API_KEY and DATAGOVIN_RBI_HPI_RESOURCE are set, a
+   nightly server job calls
+     GET https://api.data.gov.in/resource/{resource_id}?api-key={key}&format=json&offset=0&limit=500
+   (paginate with offset until 'total' is reached), maps rows to market_index,
+   and logs each call (URL with the key removed, status, row count).
+
+2. "Market trend" panel on /fair-value, below the result card, for the chosen
+   district only: a small line chart of the last 8 quarters of both series,
+   latest year-on-year change, and the text
+   "Source: RBI DBIE / NHB RESIDEX — official indices, updated quarterly".
+
+3. Locality data refresh (OpenStreetMap, official open APIs):
+   - Monthly server job: Overpass API (POST https://overpass-api.de/api/interpreter)
+     for rail/metro stations in the Pune and Thane bounding boxes; Nominatim
+     (https://nominatim.openstreetmap.org/search?format=jsonv2) for any new locality.
+   - Max 1 request/second to Nominatim; User-Agent "Estima/1.0 (contact: {admin e-mail})";
+     cache results; show "© OpenStreetMap contributors" on every map.
+   - Update micro_markets.lat/lon and a new stations collection.
+
+4. Quarterly correction-factor refresh (after each research pipeline run):
+   - Admin uploads the new correction_factors.csv (model_version changes).
+   - Keep the previous version for rollback; show "Factors updated: <date>,
+     model <version>" on the Fair Value page.
+   - Reject the upload if the file's model_version contains "synthetic" or the
+     research RESULTS_LOG entry for that run is not labelled STUDY DATA.
+
+5. Data-source status page /admin/data-sources (admin only): one row per source
+   (IGR Index-II, IGR ASR, MahaRERA, NHB RESIDEX, RBI HPI, data.gov.in, OSM) with
+   access route, last refresh, rows loaded, and next scheduled job.
+
+Acceptance tests:
+- With no API key set, the nightly job is skipped and logs "key missing" (no crash).
+- Uploading a residex.csv with a missing 'quarter' column is rejected with a clear error.
+- The Market trend chart shows only the selected district's series.
+- No API key appears in any log line or browser network response.
+- A correction_factors.csv whose model_version contains "synthetic" is rejected.
+```
+
 ## Data hand-off checklist (research → Estima)
 
 | File from research repo | Emergent collection | Produced by | Status |
 |---|---|---|---|
-| `data/external/osm/locality_gazetteer.csv` | micro_markets | osm_features.py | Seed ready (approximate coordinates) |
+| `data/external/osm/locality_gazetteer.csv`, `osm/stations.csv` | micro_markets, stations | `src/live/osm.py` (Overpass + Nominatim) | Code ready; current files are approximate seeds until `python -m src.live.fetch_all --run osm` is run |
+| `data/external/rbi_dbie/rbi_hpi.csv` | market_index (Phase 7) | `src/live/rbi_hpi.py` (DBIE export or data.gov.in API) | Code ready; load the DBIE export |
+| `data/external/residex/residex.csv` | market_index (Phase 7) | `src/live/nhb_residex.py` | Code ready; load the RESIDEX download |
+| `outputs/rq4/external/summary.json` | "Factors validated against RBI / RESIDEX" note on the Fair Value page | `rq4_external_validation.py` (stage `rq4ext`) | Code ready; runs once an index file is loaded |
 | `outputs/rq4/correction_factors.csv` | correction_factors (schema matches Phase 1; extra column `cf_eb` = shrunk factor for thin localities) | rq4_anchoring.py | Code ready; current file is SYNTHETIC — upload only after the study-data run |
 | `outputs/rq1/rq1_by_segment.csv` | anchored_share by district/FY (marketing copy) | rq1_bunching.py | Pipeline validated; study run pending real data |
 | `api/score_endpoint.py` (FastAPI) | Phase 4 private API | Week 8 | [[pending]] |

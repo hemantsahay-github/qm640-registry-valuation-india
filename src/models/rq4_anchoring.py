@@ -155,6 +155,10 @@ def run(label: str) -> tuple[dict, list]:
     a = df.loc[anc, ["micro_market", "district", "fy", "consideration_inr", "carpet_area_m2", "value_m2"]].copy()
     a["pred_value_m2"] = np.exp(pred_ln)
     a["cf"] = a["pred_value_m2"] / a["value_m2"]
+    # record-level factors for external validation (rq4_external_validation.py); no identifiers beyond record_id
+    a.assign(record_id=df.loc[anc, "record_id"].to_numpy())[
+        ["record_id", "micro_market", "district", "fy", "value_m2", "pred_value_m2", "cf"]
+    ].round(4).to_csv(OUT / "rq4_anchored_cf.csv", index=False)
 
     rows = []
     totals = df.groupby("micro_market").agg(n=("record_id", "size"), district=("district", "first"),
@@ -204,11 +208,12 @@ def run(label: str) -> tuple[dict, list]:
     seg = pd.DataFrame(seg).round(4)
     seg.to_csv(OUT / "rq4_cf_by_segment.csv", index=False)
 
-    residex_note = "RESIDEX file not present — run direction check after downloading data/external/residex/residex.csv"
+    residex_note = ("RESIDEX file not present — load it with `python -m src.live.nhb_residex --load <file>`, "
+                    "then run `python -m src.pipeline --stage rq4ext`")
     rpath = EXTERNAL_DIR / "residex" / "residex.csv"
     if rpath.exists():
         rx = pd.read_csv(rpath)          # columns: city, quarter, index
-        residex_note = f"RESIDEX loaded ({len(rx)} rows); compare CF trend by FY with index growth in report"
+        residex_note = f"RESIDEX loaded ({len(rx)} rows); run `python -m src.pipeline --stage rq4ext` for the direction check"
 
     # ------------------------------------------------------------ figures
     fig, ax = plt.subplots(figsize=(6.2, 5.5))

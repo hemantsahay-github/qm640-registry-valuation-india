@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
     inputs:
       stage:
-        description: "Stage to run (etl needs raw data; use eda, rq1, rq2, rq3, rq4)"
+        description: "Stage to run (etl needs raw data; use eda, rq1, rq2, rq3, rq4, rq4ext)"
         required: true
         default: rq1
         type: choice
-        options: [eda, rq1, rq2, rq3, rq4]
+        options: [eda, rq1, rq2, rq3, rq4, rq4ext]
 permissions:
   contents: write
 jobs:

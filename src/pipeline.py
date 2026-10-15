@@ -5,7 +5,9 @@ pipeline.py — Single entry point. Runs stages in order, one RQ at a time.
     python -m src.pipeline --stage eda   [--synthetic]
     python -m src.pipeline --stage rq1   [--synthetic]
     python -m src.pipeline --stage rq2 | rq3 | rq4
+    python -m src.pipeline --stage rq4ext   (live data: RQ4 correction factor vs RBI HPI / NHB RESIDEX)
     python -m src.pipeline --stage all   [--synthetic]
+Live sources: python -m src.live.fetch_all --check
 
 --synthetic uses data/raw/index2_raw_SYNTHETIC.csv (pipeline validation only).
 Every stage appends an RQ-labelled entry to docs/RESULTS_LOG.md.
@@ -41,10 +43,14 @@ INTERPRET = {
            "anchoring can be predicted. The correction factor CF is the median of predicted / registered "
            "value for anchored deals: CF = 1.20 means registered values understate the model value by "
            "about 20%. Because non-anchored deals may also be understated, CF is a lower bound.",
+    "RQ4EXT": "Face-validity check with independent indices: where the market index grows faster than the "
+              "circle rate (gap > 0), the correction factor should rise. Direction agreement near 1 supports "
+              "the correction factor; with few district-year cells this is descriptive, not a significance test.",
 }
 STAGES = {"etl": "src.etl", "eda": "src.eda", "rq1": "src.models.rq1_bunching",
           "rq2": "src.models.rq2_hedonic", "rq3": "src.models.rq3_gbm_vs_ols",
-          "rq4": "src.models.rq4_anchoring"}
+          "rq4": "src.models.rq4_anchoring",
+          "rq4ext": "src.models.rq4_external_validation"}   # live data: CF vs RBI HPI / RESIDEX
 
 
 def run_stage(stage: str, synthetic: bool) -> dict:

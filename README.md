@@ -37,6 +37,24 @@ python -m src.pipeline --stage etl                                 # then eda, r
 
 Large data or no laptop GPU: open `colab/QM640_pipeline_colab.ipynb`. It stores data in Google Drive and pulls code from this private repo. To run one stage from GitHub, open **Actions → RQ pipeline → Run workflow** and pick a stage.
 
+## Live data (real study run)
+
+All connectors to the public sources in synopsis Table 2 live in **`src/live/`**, one module per source. Only data.gov.in and OpenStreetMap offer official APIs. RBI DBIE, NHB RESIDEX, IGR eASR and MahaRERA are loaded from their official exports, and Index-II is captured with assistance (CAPTCHA).
+
+```bash
+cp .env.example .env                              # fill salt, contact e-mail, data.gov.in key
+python -m src.live.fetch_all --check              # status of every source
+python -m src.live.fetch_all --run osm            # live stations + geocodes (Overpass/Nominatim)
+python -m src.live.rbi_hpi --load <dbie_export.xlsx>      # or --api via data.gov.in
+python -m src.live.nhb_residex --load <residex.xlsx>
+python -m src.live.igr_asr --template && python -m src.live.igr_asr --load <filled.csv>
+python -m src.live.maharera --load <projects.csv>
+python -m src.pipeline --stage etl   # ... rq1 ... rq4, then:
+python -m src.pipeline --stage rq4ext            # correction factor vs RBI HPI / RESIDEX
+```
+
+The synthetic-validated version is frozen on branch `archive/v1.0-synthetic-validation`.
+
 ## Data and DPDP compliance
 
 | Source | Content | Access |
@@ -63,7 +81,8 @@ Index-II pages name the parties. `src/clean/dpdp_masking.py` drops names, docume
 │   ├── ingest/                 igr_index2.py (portal capture), synthetic_validation.py
 │   ├── clean/                  translate_marathi.py, parse_index2.py, dpdp_masking.py
 │   ├── features/               build_features.py, osm_features.py
-│   ├── models/                 rq1_bunching.py, rq2…rq4 (added stage by stage)
+│   ├── models/                 rq1_bunching.py … rq4_anchoring.py, rq4_external_validation.py
+│   ├── live/                   LIVE DATA: datagovin, osm, rbi_hpi, nhb_residex, igr_asr, maharera, fetch_all
 │   └── utils/                  results_log.py, plotstyle.py
 ├── scripts/                    sample_size.py, make_search_keys.py
 ├── data/{raw,interim,processed,external}

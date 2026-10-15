@@ -68,5 +68,5 @@
     0.00431
   ],
   "sro_reportable": "5 of 12 SROs",
-  "residex_check": "RESIDEX file not present — run direction check after downloading data/external/residex/residex.csv"
+  "residex_check": "RESIDEX file not present — load it with `python -m src.live.nhb_residex --load <file>`, then run `python -m src.pipeline --stage rq4ext`"
 }

@@ -5,8 +5,8 @@ PIPELINE VALIDATION — SYNTHETIC DATA (not study findings)
 Dep. Variable:                      y   No. Observations:                 1710
 Model:                          Logit   Df Residuals:                     1697
 Method:                           MLE   Df Model:                           12
-Date:                Mon, 12 Oct 2026   Pseudo R-squ.:                 0.04445
-Time:                        08:16:07   Log-Likelihood:                -643.41
+Date:                Thu, 15 Oct 2026   Pseudo R-squ.:                 0.04445
+Time:                        19:05:45   Log-Likelihood:                -643.41
 converged:                       True   LL-Null:                       -673.34
 Covariance Type:            nonrobust   LLR p-value:                 2.391e-08
 ==================================================================================

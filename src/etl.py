@@ -51,6 +51,26 @@ def apply_filters(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     return df.reset_index(drop=True), pd.concat(excluded, ignore_index=True)
 
 
+def live_checks(clean: pd.DataFrame, masked: pd.DataFrame) -> dict:
+    """Optional cross-checks against live public sources (src/live). Each runs only
+    when its normalised file exists; results go to data/processed/ for the audit."""
+    from src.config import EXTERNAL_DIR, PROCESSED_DIR
+    out = {}
+    asr_file = EXTERNAL_DIR / "asr_rates" / "asr_rates.csv"
+    if asr_file.exists():
+        from src.live.igr_asr import check_against_index2
+        chk = check_against_index2(clean, pd.read_csv(asr_file))
+        chk.to_csv(PROCESSED_DIR / "asr_check.csv", index=False)
+        out["asr_check_flagged"] = int(chk["asr_check_flag"].sum())
+    rera_file = EXTERNAL_DIR / "maharera" / "projects.csv"
+    if rera_file.exists():
+        from src.live.maharera import verify_new_sale
+        v = verify_new_sale(masked[masked["record_id"].isin(clean["record_id"])], pd.read_csv(rera_file))
+        v.to_csv(PROCESSED_DIR / "maharera_new_sale_check.csv", index=False)
+        out["maharera_new_sale_mismatches"] = int(v["mismatch"].sum())
+    return out
+
+
 def run(use_synthetic: bool = False) -> dict:
     raw = load_raw(use_synthetic)
     parsed = parse_raw(raw)                                   # Marathi -> English
@@ -75,7 +95,8 @@ def run(use_synthetic: bool = False) -> dict:
         "redactions": audit.get("redactions_in_property_description_en", 0)}])
     entry.to_csv(prov, mode="a", header=not prov.exists(), index=False)
 
-    return {"rows_raw": len(raw), "rows_after_masking": len(masked),
+    live = live_checks(clean, masked)                         # optional, only if live files exist
+    return {**live, "rows_raw": len(raw), "rows_after_masking": len(masked),
             "rows_analysis": len(clean), "exclusions": excl["reason"].value_counts().to_dict(),
             "dpdp_columns_dropped": audit["columns_dropped"],
             "dpdp_free_text_redactions": audit.get("redactions_in_property_description_en", 0),

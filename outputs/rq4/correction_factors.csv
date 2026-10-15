@@ -1,36 +1,36 @@
 micro_market_id,micro_market,district,fy,n_transactions,n_anchored,anchored_share,cf_median,cf_ci_low,cf_ci_high,reportable,model_version,published_at,eb_weight,cf_eb
-pune-aundh,Aundh,Pune,pooled,44,5,0.1136,1.5107,1.3551,1.6027,False,rq4-v1.0,2026-10-12,0.885,1.4867
-thane-manpada,Manpada,Thane,pooled,46,8,0.1739,1.4986,1.3984,1.5518,False,rq4-v1.0,2026-10-12,0.925,1.4578
-pune-pimple-saudagar,Pimple Saudagar,Pune,pooled,48,3,0.0625,1.4963,1.2897,1.616,False,rq4-v1.0,2026-10-12,0.822,1.4361
-thane-waghbil,Waghbil,Thane,pooled,50,7,0.14,1.4896,1.2854,1.5365,False,rq4-v1.0,2026-10-12,0.915,1.4073
-thane-kolshet,Kolshet,Thane,pooled,53,10,0.1887,1.4867,1.2721,1.5393,False,rq4-v1.0,2026-10-12,0.939,1.4192
-pune-viman-nagar,Viman Nagar,Pune,pooled,45,7,0.1556,1.4402,1.3894,1.5157,False,rq4-v1.0,2026-10-12,0.915,1.4422
-pune-kothrud,Kothrud,Pune,pooled,46,8,0.1739,1.4399,1.3852,1.524,False,rq4-v1.0,2026-10-12,0.925,1.4419
-thane-majiwada,Majiwada,Thane,pooled,49,5,0.102,1.4382,1.3025,1.523,False,rq4-v1.0,2026-10-12,0.885,1.4158
-thane-panchpakhadi,Panchpakhadi,Thane,pooled,51,12,0.2353,1.4342,1.3683,1.5128,False,rq4-v1.0,2026-10-12,0.949,1.4233
-pune-tathawade,Tathawade,Pune,pooled,46,3,0.0652,1.4266,1.4187,1.4615,False,rq4-v1.0,2026-10-12,0.822,1.4154
-thane-balkum,Balkum,Thane,pooled,40,8,0.2,1.4248,1.3829,1.4794,False,rq4-v1.0,2026-10-12,0.925,1.4181
-pune-hinjewadi,Hinjewadi,Pune,pooled,49,2,0.0408,1.4208,1.3477,1.494,False,rq4-v1.0,2026-10-12,0.755,1.3957
-thane-mira-road,Mira Road,Thane,pooled,43,6,0.1395,1.4076,1.2857,1.4616,False,rq4-v1.0,2026-10-12,0.902,1.3752
-pune-bavdhan,Bavdhan,Pune,pooled,43,3,0.0698,1.4017,1.282,1.4768,False,rq4-v1.0,2026-10-12,0.822,1.374
-thane-kasarvadavali,Kasarvadavali,Thane,pooled,69,6,0.087,1.401,1.2614,1.4336,False,rq4-v1.0,2026-10-12,0.902,1.3576
-pune-kharadi,Kharadi,Pune,pooled,42,5,0.119,1.3895,1.2745,1.4246,False,rq4-v1.0,2026-10-12,0.885,1.3669
-pune-baner,Baner,Pune,pooled,51,5,0.098,1.3719,1.2541,1.4419,False,rq4-v1.0,2026-10-12,0.885,1.3513
-pune-ravet,Ravet,Pune,pooled,43,9,0.2093,1.3521,1.2706,1.3716,False,rq4-v1.0,2026-10-12,0.933,1.3203
-pune-hadapsar,Hadapsar,Pune,pooled,43,9,0.2093,1.3258,1.244,1.416,False,rq4-v1.0,2026-10-12,0.933,1.3277
-pune-sus,Sus,Pune,pooled,39,3,0.0769,1.3081,1.3048,1.4229,False,rq4-v1.0,2026-10-12,0.822,1.341
-thane-dombivli,Dombivli,Thane,pooled,46,8,0.1739,1.2899,1.2266,1.392,False,rq4-v1.0,2026-10-12,0.925,1.3001
-pune-wakad,Wakad,Pune,pooled,47,7,0.1489,1.2829,1.2311,1.3795,False,rq4-v1.0,2026-10-12,0.915,1.3133
-thane-kalwa,Kalwa,Thane,pooled,39,4,0.1026,1.2774,1.2101,1.398,False,rq4-v1.0,2026-10-12,0.861,1.2915
-pune-wagholi,Wagholi,Pune,pooled,47,8,0.1702,1.273,1.2291,1.3642,False,rq4-v1.0,2026-10-12,0.925,1.2862
-thane-ulhasnagar,Ulhasnagar,Thane,pooled,52,6,0.1154,1.2721,1.2165,1.3724,False,rq4-v1.0,2026-10-12,0.902,1.2872
-pune-dhanori,Dhanori,Pune,pooled,46,9,0.1957,1.2637,1.1306,1.4466,False,rq4-v1.0,2026-10-12,0.933,1.2769
-thane-kalyan,Kalyan,Thane,pooled,52,6,0.1154,1.2456,1.1762,1.3019,False,rq4-v1.0,2026-10-12,0.902,1.2462
-pune-punawale,Punawale,Pune,pooled,52,5,0.0962,1.2393,1.2098,1.3973,False,rq4-v1.0,2026-10-12,0.885,1.2778
-pune-undri,Undri,Pune,pooled,52,6,0.1154,1.1889,1.142,1.2256,False,rq4-v1.0,2026-10-12,0.902,1.198
-thane-ambernath,Ambernath,Thane,pooled,64,11,0.1719,1.1845,1.1289,1.2255,False,rq4-v1.0,2026-10-12,0.944,1.1888
-pune-moshi,Moshi,Pune,pooled,33,1,0.0303,1.1825,1.1825,1.1825,False,rq4-v1.0,2026-10-12,0.607,1.2371
-thane-titwala,Titwala,Thane,pooled,45,11,0.2444,1.1773,1.1062,1.1906,False,rq4-v1.0,2026-10-12,0.944,1.1509
-thane-badlapur,Badlapur,Thane,pooled,60,8,0.1333,1.1372,1.0973,1.2263,False,rq4-v1.0,2026-10-12,0.925,1.1595
-pune-chakan,Chakan,Pune,pooled,51,9,0.1765,1.1298,1.0963,1.235,False,rq4-v1.0,2026-10-12,0.933,1.1504
-thane-bhiwandi,Bhiwandi,Thane,pooled,45,6,0.1333,1.1128,1.0356,1.1552,False,rq4-v1.0,2026-10-12,0.902,1.1187
+pune-aundh,Aundh,Pune,pooled,44,5,0.1136,1.5107,1.3551,1.6027,False,rq4-v1.0,2026-10-15,0.885,1.4867
+thane-manpada,Manpada,Thane,pooled,46,8,0.1739,1.4986,1.3984,1.5518,False,rq4-v1.0,2026-10-15,0.925,1.4578
+pune-pimple-saudagar,Pimple Saudagar,Pune,pooled,48,3,0.0625,1.4963,1.2897,1.616,False,rq4-v1.0,2026-10-15,0.822,1.4361
+thane-waghbil,Waghbil,Thane,pooled,50,7,0.14,1.4896,1.2854,1.5365,False,rq4-v1.0,2026-10-15,0.915,1.4073
+thane-kolshet,Kolshet,Thane,pooled,53,10,0.1887,1.4867,1.2721,1.5393,False,rq4-v1.0,2026-10-15,0.939,1.4192
+pune-viman-nagar,Viman Nagar,Pune,pooled,45,7,0.1556,1.4402,1.3894,1.5157,False,rq4-v1.0,2026-10-15,0.915,1.4422
+pune-kothrud,Kothrud,Pune,pooled,46,8,0.1739,1.4399,1.3852,1.524,False,rq4-v1.0,2026-10-15,0.925,1.4419
+thane-majiwada,Majiwada,Thane,pooled,49,5,0.102,1.4382,1.3025,1.523,False,rq4-v1.0,2026-10-15,0.885,1.4158
+thane-panchpakhadi,Panchpakhadi,Thane,pooled,51,12,0.2353,1.4342,1.3683,1.5128,False,rq4-v1.0,2026-10-15,0.949,1.4233
+pune-tathawade,Tathawade,Pune,pooled,46,3,0.0652,1.4266,1.4187,1.4615,False,rq4-v1.0,2026-10-15,0.822,1.4154
+thane-balkum,Balkum,Thane,pooled,40,8,0.2,1.4248,1.3829,1.4794,False,rq4-v1.0,2026-10-15,0.925,1.4181
+pune-hinjewadi,Hinjewadi,Pune,pooled,49,2,0.0408,1.4208,1.3477,1.494,False,rq4-v1.0,2026-10-15,0.755,1.3957
+thane-mira-road,Mira Road,Thane,pooled,43,6,0.1395,1.4076,1.2857,1.4616,False,rq4-v1.0,2026-10-15,0.902,1.3752
+pune-bavdhan,Bavdhan,Pune,pooled,43,3,0.0698,1.4017,1.282,1.4768,False,rq4-v1.0,2026-10-15,0.822,1.374
+thane-kasarvadavali,Kasarvadavali,Thane,pooled,69,6,0.087,1.401,1.2614,1.4336,False,rq4-v1.0,2026-10-15,0.902,1.3576
+pune-kharadi,Kharadi,Pune,pooled,42,5,0.119,1.3895,1.2745,1.4246,False,rq4-v1.0,2026-10-15,0.885,1.3669
+pune-baner,Baner,Pune,pooled,51,5,0.098,1.3719,1.2541,1.4419,False,rq4-v1.0,2026-10-15,0.885,1.3513
+pune-ravet,Ravet,Pune,pooled,43,9,0.2093,1.3521,1.2706,1.3716,False,rq4-v1.0,2026-10-15,0.933,1.3203
+pune-hadapsar,Hadapsar,Pune,pooled,43,9,0.2093,1.3258,1.244,1.416,False,rq4-v1.0,2026-10-15,0.933,1.3277
+pune-sus,Sus,Pune,pooled,39,3,0.0769,1.3081,1.3048,1.4229,False,rq4-v1.0,2026-10-15,0.822,1.341
+thane-dombivli,Dombivli,Thane,pooled,46,8,0.1739,1.2899,1.2266,1.392,False,rq4-v1.0,2026-10-15,0.925,1.3001
+pune-wakad,Wakad,Pune,pooled,47,7,0.1489,1.2829,1.2311,1.3795,False,rq4-v1.0,2026-10-15,0.915,1.3133
+thane-kalwa,Kalwa,Thane,pooled,39,4,0.1026,1.2774,1.2101,1.398,False,rq4-v1.0,2026-10-15,0.861,1.2915
+pune-wagholi,Wagholi,Pune,pooled,47,8,0.1702,1.273,1.2291,1.3642,False,rq4-v1.0,2026-10-15,0.925,1.2862
+thane-ulhasnagar,Ulhasnagar,Thane,pooled,52,6,0.1154,1.2721,1.2165,1.3724,False,rq4-v1.0,2026-10-15,0.902,1.2872
+pune-dhanori,Dhanori,Pune,pooled,46,9,0.1957,1.2637,1.1306,1.4466,False,rq4-v1.0,2026-10-15,0.933,1.2769
+thane-kalyan,Kalyan,Thane,pooled,52,6,0.1154,1.2456,1.1762,1.3019,False,rq4-v1.0,2026-10-15,0.902,1.2462
+pune-punawale,Punawale,Pune,pooled,52,5,0.0962,1.2393,1.2098,1.3973,False,rq4-v1.0,2026-10-15,0.885,1.2778
+pune-undri,Undri,Pune,pooled,52,6,0.1154,1.1889,1.142,1.2256,False,rq4-v1.0,2026-10-15,0.902,1.198
+thane-ambernath,Ambernath,Thane,pooled,64,11,0.1719,1.1845,1.1289,1.2255,False,rq4-v1.0,2026-10-15,0.944,1.1888
+pune-moshi,Moshi,Pune,pooled,33,1,0.0303,1.1825,1.1825,1.1825,False,rq4-v1.0,2026-10-15,0.607,1.2371
+thane-titwala,Titwala,Thane,pooled,45,11,0.2444,1.1773,1.1062,1.1906,False,rq4-v1.0,2026-10-15,0.944,1.1509
+thane-badlapur,Badlapur,Thane,pooled,60,8,0.1333,1.1372,1.0973,1.2263,False,rq4-v1.0,2026-10-15,0.925,1.1595
+pune-chakan,Chakan,Pune,pooled,51,9,0.1765,1.1298,1.0963,1.235,False,rq4-v1.0,2026-10-15,0.933,1.1504
+thane-bhiwandi,Bhiwandi,Thane,pooled,45,6,0.1333,1.1128,1.0356,1.1552,False,rq4-v1.0,2026-10-15,0.902,1.1187

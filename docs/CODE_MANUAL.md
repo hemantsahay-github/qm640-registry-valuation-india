@@ -2,7 +2,7 @@
 
 **Project:** Correcting for Circle-Rate Anchoring in Indian Residential Property Valuation: A Registry-Based Machine Learning Study
 **Author / IP owner:** Hemant Kumar Sahay · QM 640 Data Analytics Capstone, Walsh College
-**Manual version:** 2.0 (12 October 2026), covering the complete pipeline: Stage 0 (setup), ETL, EDA and RQ1–RQ4, all validated on synthetic data. The next update comes with the first study-data run.
+**Manual version:** 2.1 (16 October 2026). This version adds the live-data connectors (`src/live/`) and the RQ4 external validation against RBI HPI and NHB RESIDEX. The synthetic-data logic is unchanged and is also frozen on GitHub branch `archive/v1.0-synthetic-validation`.
 
 ---
 
@@ -19,6 +19,9 @@
 | 5 RQ2 | `--stage rq2` | analysis dataset | `outputs/rq2/` | Drivers beyond ASR |
 | 6 RQ3 | `--stage rq3` | analysis dataset | `outputs/rq3/` | XGBoost vs OLS |
 | 7 RQ4 | `--stage rq4` | analysis dataset + RQ3 model | `outputs/rq4/` | Anchoring drivers, correction factor |
+| L0 Live status | `python -m src.live.fetch_all --check` | `src/live/sources.py` | console table | Which live sources are loaded, which credentials are missing |
+| L1 Live pull | `python -m src.live.fetch_all --run osm`, plus each `src.live.<source> --load <file>` | public APIs / official exports | `data/external/<source>/` | Real locations, ASR rates, RERA projects, market indices |
+| 8 RQ4 external | `--stage rq4ext` | RQ4 factors + RBI HPI / RESIDEX | `outputs/rq4/external/` | Does the correction factor move with the market? |
 
 Every stage adds a dated entry to `docs/RESULTS_LOG.md`. Each entry has the data label (synthetic or study), the key numbers, an interpretation and the file list. Use that log when you write the interim and final reports.
 
@@ -35,6 +38,10 @@ Every stage adds a dated entry to `docs/RESULTS_LOG.md`. Each entry has the data
 | `src/features/` | Derived variables, OSM distances | Yes |
 | `src/models/` | One module per research question | Yes |
 | `src/utils/` | Results logger, figure style | Yes |
+| `src/live/` | **Live-data connectors** for the sources in synopsis Table 2 (APIs, export loaders, catalogue, status check) | Yes |
+| `.env.example` | Names of the secrets and settings the live connectors read (copy to `.env`, never commit) | Yes |
+| `data/external/cache/` | Raw HTTP responses from live APIs | **No** (git-ignored) |
+| `docs/live_provenance_log.csv` | One line per live request or file load: time, source, URL with keys removed, status, SHA-256 | Yes |
 | `data/raw/` | Portal captures, which contain names | **Never** |
 | `data/interim/` | Masked, English, pre-filter | No (local/Drive) |
 | `data/processed/` | Analysis-ready, de-identified | Yes (publishable view) |
@@ -194,6 +201,62 @@ This script recomputes every minimum N. RQ1: CI for a proportion → 1,068. RQ2:
 | Google Colab (`colab/…ipynb`) | Large data, stored in Drive under `QM640_DATA_ROOT` |
 | GitHub Actions (`pipeline.yml`) | Rerunning one RQ stage on the committed de-identified dataset; commits outputs and the log |
 
+### 3.15 Live-data connectors (`src/live/`) — real data for the study run
+**Why this package exists.** The study must run on real public data, not the synthetic validation set. Each source in synopsis Table 2 gets its own clearly named module. The access method follows what the source actually offers. Only data.gov.in and OpenStreetMap have official public APIs. RBI DBIE, NHB RESIDEX, IGR eASR and MahaRERA publish data on their websites or as downloads with no public API. Index-II requires a CAPTCHA for every search.
+
+| Module | Source | Access route | Credential | Normalised output | Feeds |
+|---|---|---|---|---|---|
+| `datagovin.py` | Open Government Data Platform (data.gov.in) | **Official REST API**: `https://api.data.gov.in/resource/{id}?api-key=…&format=json&offset=…&limit=…&filters[field]=value`; paginated | `DATAGOVIN_API_KEY` | `data/external/datagovin/<name>.csv` | Any OGD dataset; RBI HPI mirror |
+| `osm.py` | OpenStreetMap | **Official open APIs**: Overpass (stations), Nominatim (locality geocodes); 1 request/s, identifying User-Agent, ODbL attribution | `QM640_CONTACT_EMAIL` | `osm/stations.csv`, `osm/locality_gazetteer.csv` | `dist_rail_km`, `dist_cbd_km`, lat/lon |
+| `rbi_hpi.py` | RBI DBIE House Price Index, which covers 18 cities including **Pune and Thane** (base 2022-23 = 100) | DBIE table export (`--load`); optional data.gov.in mirror (`--api`) | key only for `--api` | `rbi_dbie/rbi_hpi.csv` | RQ4 external validation |
+| `nhb_residex.py` | NHB RESIDEX, HPI at assessment price | Downloaded city table (`--load`) | — | `residex/residex.csv` | RQ4 external validation |
+| `igr_asr.py` | IGR eASR (ready reckoner) | Rates recorded into a generated template (`--template`, then `--load`) | — | `asr_rates/asr_rates.csv` | ETL check that each Index-II ASR value matches rate × area |
+| `maharera.py` | MahaRERA project registry | Project search results saved as CSV (`--load`); promoter names dropped (DPDP) | — | `maharera/projects.csv` | ETL check of the `new_sale` flag |
+| `src/ingest/igr_index2.py` (unchanged) | IGR Index-II | Assisted capture; you type the CAPTCHA | — | `data/raw/index2_raw.csv` | ETL → RQ1–RQ4 (core data) |
+
+**Shared plumbing**
+- `http.py` (`LiveClient`):
+  - retries with back-off on 429 and 5xx responses
+  - a minimum interval between requests to the same host
+  - a User-Agent that includes your contact e-mail
+  - an on-disk response cache
+  - `log_provenance()`, which strips API keys from URLs before anything is logged
+- `index_utils.py` reads both wide and long index tables and normalises period labels such as "Q1:2025-26", "2025-26 Q1", "Q1 FY26" and dates to `FYyyQq`.
+- `sources.py` is the catalogue of all sources, and `fetch_all.py --check` prints its status table.
+
+**How live data reaches the RQs**
+1. `etl.py` → `live_checks()`. If `asr_rates.csv` exists, the ETL writes `data/processed/asr_check.csv`. If `projects.csv` exists, it writes `data/processed/maharera_new_sale_check.csv`. The counts of flagged records go into the ETL results-log entry. Neither check changes any analysis variable; both feed the 5% manual audit.
+2. Running `osm.py` replaces the approximate seed coordinates, so the distances in RQ2–RQ4 use real station locations.
+3. `rq4_anchoring.py` now also writes `rq4_anchored_cf.csv`, the record-level factors. This is an extra output only; the RQ4 logic is unchanged.
+4. `src/models/rq4_external_validation.py` (stage `rq4ext`):
+   - for each district × FY, it compares the change in the median correction factor with the *gap* between index growth and ASR growth
+   - it reports the direction-agreement share and Spearman ρ, and draws a figure
+   - it skips cleanly when no index file is loaded
+   - with 2 districts × 3 FYs it is a face-validity check, not a significance test
+
+**Live-data run order**
+1. Set up `.env` from `.env.example` with a salt, contact e-mail and data.gov.in key.
+2. Run `python -m src.live.fetch_all --check`.
+3. Run `python -m src.live.fetch_all --run osm`.
+4. Run `python -m src.live.igr_asr --template`, fill the template from eASR, then run `--load`.
+5. Load the MahaRERA project list with `src.live.maharera --load`.
+6. Load the RBI HPI export (`src.live.rbi_hpi --load`) and the RESIDEX download (`src.live.nhb_residex --load`).
+7. Collect Index-II with `src.ingest.igr_index2`.
+8. Run the pipeline stages `etl` → `eda` → `rq1` … `rq4` → `rq4ext`, all **without** `--synthetic`.
+
+**Testing.** `tests/test_live.py` has 15 tests. They mock every network call with responses in each API's documented format, so they run offline and on GitHub Actions. They cover:
+- pagination and filters for data.gov.in
+- that the API key never appears in the provenance log
+- parsing Overpass responses
+- quarter-label parsing and normalising wide and long index tables
+- range validation of ASR rates and the Index-II cross-check
+- MahaRERA matching
+- the direction logic of the RQ4 external validation
+
+**Limitation.** The cloud workspace used to build this package cannot reach the government sites. The connectors are tested against the documented formats, not yet against live responses. The first live run on your laptop or in Colab is the integration test. Check `docs/live_provenance_log.csv` after that run.
+
+**Preserved logic.** `src/ingest/synthetic_validation.py`, `scripts/validate_synthetic_truth.py`, the `--synthetic` flag and `src/features/osm_features.py` are kept unchanged for reference. Branch `archive/v1.0-synthetic-validation` is a frozen snapshot of the full synthetic-validated pipeline (commit 45c4b01).
+
 ## 4. Outcome register (filled as stages complete)
 
 | Stage | Date | Data | Headline | Where |
@@ -204,6 +267,8 @@ This script recomputes every minimum N. RQ1: CI for a proportion → 1,068. RQ2:
 | RQ2 | 11-Oct-2026 | Synthetic validation | R² 0.864 → 0.891 (ΔR² = .027, f² = .25); partial F(11, 1697) = 38.2, p < .001 (HC3 Wald F = 40.5). Recovered the effects built into the synthetic data: floor +0.34%/floor, parking +4.1%, FY drift +4.8% and +9.3%. Correctly found no effect for area, area basis, station distance or municipal status. ASR elasticity 1.24. VIF max 5.18 (ln ASR rate, collinear with CBD distance). Breusch–Pagan significant, so HC3 is needed. The negative-residual cluster in the residual plot is the anchoring signature that RQ3/RQ4 target | `outputs/rq2/` |
 | RQ3 | 12-Oct-2026 | Synthetic validation | 8 held-out micro-markets, n_test = 404 (≥ 199). OLS beat XGBoost: MAE_log 0.102 vs 0.109, MAPE 10.4% vs 11.3%. Mean d = −0.0069, paired t(403) = −2.66, one-sided p = .996, so H0 is not rejected. OLS won all 5 grouped-CV folds. This is the correct outcome, because the synthetic data are log-linear with no interactions. A unit-test power check confirms the tests do detect a real XGBoost advantage. Bias audit: anchored deals have about 2× the error (0.21 vs 0.09), which motivates RQ4. Top SHAP features: ASR rate, new sale, FY 2025–26, floor, carpet area | `outputs/rq3/` |
 | RQ4 | 12-Oct-2026 | Synthetic validation | 229 anchored (EPV = 19.1). LR χ²(12) = 59.9, p < .001; McFadden R² = .045. Significant odds ratios: new sale 0.41 (the generator's true value is 0.41), FY 2025–26 0.64, floor 0.98. Held-out AUC: logit .59, XGBoost .57 (difference not significant). Low predictability is expected because synthetic anchoring is mostly random. Pooled CF = 1.31 [1.28, 1.36] (Pune 1.35, Thane 1.29). **Truth check:** true CF = 1.38, so the estimate recovers 95%, and the shortfall is the built-in under-statement of non-anchored deals (lower bound confirmed). 0 of 35 micro-markets reach 20 anchored (median 6); 5 of 12 SROs do, so EB shrinkage and SRO-level factors are provided | `outputs/rq4/` |
+
+| Live connectors | 16-Oct-2026 | Code + offline tests | 7 live modules and the `rq4ext` stage added. 27 of 27 unit tests pass (15 new). A synthetic regression rerun reproduced every earlier result exactly (1,710 rows; b = 35.168; ΔR² = .027; CF = 1.3095). `rq4ext` skips until an index file is loaded | `src/live/`, `tests/test_live.py` |
 
 Study-data rows replace the synthetic rows once real Index-II records are collected.
 
@@ -217,6 +282,11 @@ Study-data rows replace the synthetic rows once real Index-II records are collec
 | Locality stays in Devanagari | Add it to `LOCALITIES` in `translate_marathi.py` |
 | `not_geocoded` exclusions | Add the locality to `data/external/osm/locality_gazetteer.csv` or run `osm_features.py` |
 | Portal layout changed | Capture still works (it reads page text); check `_extract_header` patterns |
+| `DATAGOVIN_API_KEY is not set` | Add the key to `.env` (data.gov.in → My Account) or a Colab secret |
+| `Cannot identify city/period/index columns` (RBI/RESIDEX load) | Rename the export's columns to City / Quarter / Index, or keep the wide layout with one column per city |
+| HTTP 429 from Overpass or Nominatim | Wait and rerun. Responses are cached, so finished requests are not repeated |
+| `rq4ext` status SKIPPED | Run `--stage rq4` first, then load at least one index file |
+| `fetch_all --check` shows osm "missing" although files exist | They are the approximate seed files. Run `python -m src.live.fetch_all --run osm` |
 
 ## 6. Glossary
 

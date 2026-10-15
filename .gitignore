@@ -8,3 +8,6 @@ data/interim/*
 __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
+
+# live-data HTTP cache
+data/external/cache/
