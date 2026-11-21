@@ -92,7 +92,7 @@ fig.colorbar(im, ax=ax, fraction=0.04, pad=0.02, label="Pearson r")
 save(fig, "fig03_correlation.png")
 
 # 4 architecture diagram
-fig, ax = plt.subplots(figsize=(W, 4.6))
+fig, ax = plt.subplots(figsize=(W, 4.9))
 ax.set_xlim(0, 100); ax.set_ylim(0, 72); ax.axis("off")
 stages = [("1  Ingestion", "Index-II, ASR, MahaRERA,\nOSM, RESIDEX, RBI"),
           ("2  Preprocessing", "Translation, DPDP masking,\nfilters, exclusion log"),
@@ -117,9 +117,15 @@ ax.annotate("", (83.5, 36.6), (83.5, 45.6), arrowprops=arrow)
 ax.annotate("", (65.9, 26), (67.8, 26), arrowprops=arrow)
 ax.annotate("", (32.4, 26), (34.3, 26), arrowprops=arrow)
 ax.add_patch(FancyBboxPatch((1, 1), 98, 9, boxstyle="round,pad=0.4,rounding_size=1.5", fc="#f3f2ee", ec=INK2, lw=1.5))
-ax.text(50, 5.5, "7  Deployment: FastAPI scoring service → Estima Fair Value Score + LLM explanation",
+ax.text(50, 5.5, "7  Deployment: FastAPI scoring API → Estima Fair Value Score",
         ha="center", va="center", fontsize=8.6, weight="bold", color=INK)
 ax.annotate("", (16.5, 10.6), (16.5, 15.6), arrowprops=arrow)
+from matplotlib.patches import Patch as _P
+from matplotlib.lines import Line2D as _L
+ax.legend(handles=[_P(fc="white", ec=BLUE, lw=2, label="Data preparation"), _P(fc="white", ec=GREEN, lw=2, label="Analysis & features"),
+                   _P(fc="white", ec=ORANGE, lw=2, label="Modeling & evaluation"), _P(fc="#f3f2ee", ec=INK2, lw=1.5, label="Serving"),
+                   _L([], [], color=INK2, marker=">", lw=1.5, label="Data flow")],
+          loc="upper center", bbox_to_anchor=(0.5, 1.12), ncol=5, fontsize=8, handlelength=1.5, columnspacing=1.0, title="Legend", title_fontsize=8.5)
 ax.text(50, 69, "Storage zones: data/raw → data/interim → data/processed → outputs/<stage>   ·   quality gate between stages",
         ha="center", fontsize=7.8, color=INK2, style="italic")
 save(fig, "fig04_architecture.png")
